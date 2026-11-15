@@ -1,0 +1,3380 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>🤖 ML &amp; Data Preprocessing — 25 quiz Qs + 51 AI Qs</title>
+<style>
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4338ca;
+  --primary-light: #eef2ff;
+  --success: #22c55e;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --bg: #f5f3ff;
+  --card: #ffffff;
+  --text: #1e1b4b;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --radius: 18px;
+  --shadow: 0 4px 28px rgba(99,102,241,0.10);
+  --shadow-hover: 0 8px 32px rgba(99,102,241,0.18);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding-bottom: 60px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ══ HEADER ══ */
+.header {
+  background: linear-gradient(135deg, #4338ca 0%, #6366f1 60%, #818cf8 100%);
+  color: #fff;
+  padding: clamp(18px,4vw,28px) clamp(16px,4vw,24px) clamp(14px,3vw,20px);
+  text-align: center;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 2px 20px rgba(67,56,202,0.3);
+}
+.header h1 { font-size: clamp(1rem,4vw,1.3rem); font-weight: 800; letter-spacing:.3px; }
+.header p  { font-size: clamp(0.72rem,2.5vw,0.82rem); opacity:.88; margin-top:3px; }
+.progress-bar-wrap { background: rgba(255,255,255,0.22); border-radius:20px; height:7px; margin-top:12px; overflow:hidden; }
+.progress-bar-fill { height:100%; background:#fff; border-radius:20px; transition: width .4s ease; }
+.progress-text { font-size:clamp(0.7rem,2.2vw,0.78rem); opacity:.9; margin-top:5px; font-weight:600; }
+
+/* ══ SCREENS ══ */
+.screen { display:none; }
+.screen.active { display:block; }
+
+/* ══════════════════════
+   HOME SCREEN
+══════════════════════ */
+.home-wrap {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: clamp(16px,4vw,28px) clamp(12px,4vw,20px);
+}
+
+.home-hero {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: clamp(22px,5vw,32px) clamp(16px,4vw,24px);
+  text-align: center;
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+  border: 1.5px solid rgba(99,102,241,0.08);
+}
+.home-hero .big-emoji { font-size: clamp(2.4rem,8vw,3.2rem); margin-bottom:10px; }
+.home-hero h2 { font-size: clamp(1.1rem,4vw,1.4rem); font-weight:800; color:var(--primary-dark); }
+.home-hero p  { color:var(--muted); font-size:clamp(0.8rem,2.8vw,0.9rem); margin-top:8px; line-height:1.65; }
+
+.stats-row {
+  display:flex; gap:10px; margin-top:18px;
+}
+.stat-pill {
+  flex:1; background:var(--primary-light);
+  border-radius:12px; padding:10px 6px; text-align:center;
+}
+.stat-pill .sn { font-size:clamp(1rem,4vw,1.3rem); font-weight:800; color:var(--primary-dark); }
+.stat-pill .sl { font-size:clamp(0.62rem,2vw,0.72rem); color:var(--muted); font-weight:600; margin-top:2px; }
+
+/* mode toggle */
+.mode-section { margin-bottom:20px; }
+.mode-label { font-size:clamp(0.7rem,2.5vw,0.78rem); font-weight:800; color:var(--muted); letter-spacing:1px; text-transform:uppercase; margin-bottom:10px; }
+.mode-toggle {
+  display:grid; grid-template-columns:1fr 1fr; gap:10px;
+}
+.mode-card {
+  background:var(--card); border:2.5px solid var(--border);
+  border-radius:14px; padding:clamp(14px,3.5vw,20px) 10px;
+  display:flex; flex-direction:column; align-items:center; gap:7px;
+  cursor:pointer; font-size:clamp(0.82rem,2.8vw,0.92rem); font-weight:700;
+  color:var(--muted); transition:all .2s; user-select:none;
+}
+.mode-card .mc-icon { font-size:clamp(1.4rem,5vw,1.8rem); }
+.mode-card .mc-desc { font-size:clamp(0.65rem,2.2vw,0.73rem); font-weight:500; color:var(--muted); text-align:center; }
+.mode-card:hover { border-color:var(--primary); background:var(--primary-light); color:var(--primary-dark); }
+.mode-card.sel { border-color:var(--primary); background:var(--primary-light); color:var(--primary-dark); }
+.mode-card.sel .mc-desc { color:var(--primary); }
+
+.start-btn {
+  width:100%;
+  background: linear-gradient(135deg, #4338ca, #6366f1);
+  color:#fff; border:none; border-radius:16px;
+  padding:clamp(15px,4vw,20px);
+  font-size:clamp(0.95rem,3.5vw,1.1rem); font-weight:800;
+  cursor:pointer; letter-spacing:.3px;
+  box-shadow: 0 6px 20px rgba(67,56,202,0.3);
+  transition: transform .15s, box-shadow .15s;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+}
+.start-btn:hover { transform:translateY(-2px); box-shadow:0 10px 28px rgba(67,56,202,0.4); }
+.start-btn:active { transform:translateY(0); }
+
+/* lecture badges */
+.lec-badges {
+  display:flex; flex-wrap:wrap; gap:7px; margin:16px 0 4px;
+  justify-content: center;
+}
+.lec-badge {
+  background:var(--card); border:1.5px solid var(--border);
+  border-radius:20px; padding:5px 12px;
+  font-size:clamp(0.68rem,2.2vw,0.76rem); font-weight:700; color:var(--muted);
+  white-space:nowrap;
+}
+.lec-badges-label { font-size:clamp(0.66rem,2vw,0.74rem); color:var(--muted); text-align:center; margin-bottom:4px; font-weight:600; }
+
+
+/* ══ ملحوظة على سؤال معيّن ══ */
+.q-note {
+  display: block;
+  background: rgba(245,158,11,.12);
+  border: 1.5px solid rgba(245,158,11,.45);
+  border-right: 5px solid #f59e0b;
+  border-radius: 12px; padding: 10px 12px; margin: 0 0 10px;
+  font-size: clamp(.72rem,2.4vw,.82rem); font-weight: 700; line-height: 1.7;
+  color: var(--text); text-align: right; direction: rtl;
+}
+.q-note bdi { font-weight: 800; color: #b45309; unicode-bidi: isolate; }
+body.dark-mode .q-note { background: rgba(245,158,11,.10); }
+body.dark-mode .q-note bdi { color: #fbbf24; }
+
+/* ══════════════════════
+   QUIZ SCREEN
+══════════════════════ */
+.quiz-wrap {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: clamp(14px,3.5vw,22px) clamp(12px,4vw,18px);
+}
+
+.set-banner {
+  background: linear-gradient(135deg,#4338ca,#818cf8);
+  color:#fff; border-radius:12px; padding:10px 16px;
+  font-size:clamp(0.75rem,2.5vw,0.85rem); font-weight:700;
+  margin-bottom:14px; display:flex; align-items:center; gap:8px;
+}
+
+.q-card {
+  background:var(--card); border-radius:var(--radius);
+  padding:clamp(18px,4vw,26px) clamp(14px,4vw,22px);
+  box-shadow:var(--shadow); margin-bottom:14px;
+  border:1.5px solid rgba(99,102,241,0.07);
+}
+.q-meta {
+  display:flex; justify-content:space-between; align-items:center;
+  margin-bottom:14px; flex-wrap:wrap; gap:6px;
+}
+.q-badge {
+  background:var(--primary-light); color:var(--primary-dark);
+  font-size:clamp(0.68rem,2.2vw,0.76rem); font-weight:800;
+  padding:5px 12px; border-radius:20px;
+}
+.q-lec-tag {
+  font-size:clamp(0.64rem,2vw,0.72rem); color:var(--muted);
+  background:#f9fafb; padding:4px 11px; border-radius:20px;
+  font-weight:600; border:1px solid var(--border);
+}
+.q-text {
+  font-size:clamp(0.9rem,3vw,1.02rem); font-weight:700;
+  line-height:1.65; margin-bottom:18px; color:var(--text);
+}
+
+/* options */
+.opts { display:flex; flex-direction:column; gap:clamp(8px,2vw,11px); }
+.opt-btn {
+  background:#fafafa; border:2px solid var(--border);
+  border-radius:13px; padding:clamp(11px,3vw,15px) clamp(12px,3.5vw,16px);
+  font-size:clamp(0.84rem,2.8vw,0.93rem); font-weight:500; color:var(--text);
+  cursor:pointer; text-align:left;
+  display:flex; align-items:center; gap:12px;
+  transition:all .18s; width:100%; line-height:1.45;
+}
+.opt-btn:hover:not(:disabled) {
+  border-color:var(--primary); background:var(--primary-light);
+  transform:translateX(4px);
+}
+.opt-btn .ol {
+  min-width:30px; height:30px; background:#fff; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-weight:800; font-size:clamp(0.72rem,2.2vw,0.8rem); color:var(--muted);
+  flex-shrink:0; border:2px solid var(--border); transition:all .18s;
+}
+.opt-btn.correct { border-color:var(--success); background:#f0fdf4; color:#15803d; }
+.opt-btn.correct .ol { background:var(--success); color:#fff; border-color:var(--success); }
+.opt-btn.wrong   { border-color:var(--danger);  background:#fef2f2; color:#dc2626; }
+.opt-btn.wrong   .ol { background:var(--danger);  color:#fff; border-color:var(--danger); }
+.opt-btn:disabled { cursor:default; }
+
+/* feedback */
+.fb-box {
+  margin-top:13px; padding:clamp(10px,3vw,14px) clamp(13px,3.5vw,16px);
+  border-radius:12px; font-size:clamp(0.8rem,2.5vw,0.88rem);
+  font-weight:600; display:none; align-items:flex-start; gap:8px; line-height:1.5;
+}
+.fb-box.show { display:flex; }
+.fb-box.correct { background:#f0fdf4; color:#15803d; border:1.5px solid #bbf7d0; }
+.fb-box.wrong   { background:#fef2f2; color:#dc2626;  border:1.5px solid #fecaca; }
+
+/* nav */
+.nav-row { display:flex; gap:10px; margin-top:14px; }
+.nav-btn {
+  flex:1; padding:clamp(13px,3.5vw,16px);
+  border:none; border-radius:13px;
+  font-size:clamp(0.88rem,3vw,0.97rem); font-weight:700;
+  cursor:pointer; transition:all .18s;
+}
+.btn-next {
+  background:linear-gradient(135deg,#4338ca,#6366f1);
+  color:#fff; box-shadow:0 4px 14px rgba(67,56,202,.3); display:none;
+}
+.btn-next.show { display:block; }
+.btn-next:hover { transform:translateY(-2px); }
+.btn-skip { background:#f3f4f6; color:var(--muted); border:2px solid var(--border); }
+.btn-skip:hover { border-color:var(--primary); color:var(--primary-dark); background:var(--primary-light); }
+
+/* Show Result Early button */
+.show-result-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #f59e0b, #ef4444);
+  color: #fff;
+  border: none;
+  border-radius: 13px;
+  padding: clamp(13px,3.5vw,16px);
+  font-size: clamp(0.88rem,3vw,0.97rem);
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(239,68,68,0.3);
+  transition: all .18s;
+  margin-top: 14px;
+}
+.show-result-btn:hover { transform: translateY(-2px); }
+
+/* ══════════════════════
+   RESULT SCREEN
+══════════════════════ */
+.res-wrap {
+  max-width: 520px;
+  margin: clamp(20px,5vw,36px) auto 0;
+  padding: 0 clamp(12px,4vw,18px);
+}
+.res-card {
+  background:var(--card); border-radius:var(--radius);
+  padding:clamp(24px,5vw,36px) clamp(18px,4vw,28px);
+  box-shadow:var(--shadow); text-align:center;
+  border:1.5px solid rgba(99,102,241,0.07);
+}
+.res-emoji { font-size:clamp(3rem,10vw,4rem); margin-bottom:10px; }
+.res-title { font-size:clamp(1.25rem,5vw,1.5rem); font-weight:800; }
+.res-sub   { color:var(--muted); font-size:clamp(0.82rem,2.8vw,0.9rem); margin:7px 0 20px; }
+
+.score-ring {
+  width:clamp(110px,30vw,130px); height:clamp(110px,30vw,130px);
+  border-radius:50%; margin:0 auto 22px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  font-weight:800; border:8px solid;
+}
+.score-ring .pct  { font-size:clamp(1.6rem,6vw,2rem); line-height:1; }
+.score-ring .slbl { font-size:clamp(0.65rem,2vw,0.74rem); font-weight:600; opacity:.72; }
+
+.res-grid {
+  display:grid; grid-template-columns:1fr 1fr 1fr;
+  gap:clamp(7px,2vw,10px); margin-bottom:22px;
+}
+.res-stat { background:var(--bg); border-radius:12px; padding:clamp(11px,3vw,15px) 6px; }
+.res-stat .rn { font-size:clamp(1.2rem,5vw,1.5rem); font-weight:800; }
+.res-stat .rl { font-size:clamp(0.62rem,2vw,0.7rem); color:var(--muted); font-weight:600; margin-top:2px; }
+
+.res-acts { display:flex; flex-direction:column; gap:9px; }
+.res-acts button {
+  padding:clamp(13px,3.5vw,16px); border:none; border-radius:13px;
+  font-size:clamp(0.88rem,3vw,0.97rem); font-weight:700; cursor:pointer; transition:all .18s;
+}
+.btn-retry   { background:linear-gradient(135deg,#4338ca,#6366f1); color:#fff; box-shadow:0 4px 14px rgba(67,56,202,.25); }
+.btn-retry:hover { transform:translateY(-2px); }
+.btn-review2 { background:var(--bg); color:var(--primary-dark); border:2px solid var(--primary) !important; }
+.btn-home2   { background:var(--bg); color:var(--muted); border:2px solid var(--border) !important; }
+
+/* ══════════════════════
+   REVIEW SCREEN
+══════════════════════ */
+.rev-wrap {
+  max-width:640px; margin:0 auto;
+  padding:clamp(14px,4vw,22px) clamp(12px,4vw,18px);
+}
+.rev-hdr { text-align:center; margin-bottom:18px; }
+.rev-hdr h2 { font-size:clamp(1rem,4vw,1.2rem); font-weight:800; }
+.rev-hdr p  { color:var(--muted); font-size:clamp(0.76rem,2.5vw,0.85rem); margin-top:4px; }
+
+.rev-item {
+  background:var(--card); border-radius:var(--radius);
+  padding:clamp(14px,3.5vw,20px) clamp(13px,3.5vw,18px);
+  margin-bottom:12px; box-shadow:var(--shadow);
+  border-left:5px solid #e5e7eb;
+}
+.rev-item.correct { border-left-color:var(--success); }
+.rev-item.wrong   { border-left-color:var(--danger);  }
+.rev-item.skipped { border-left-color:var(--warning); }
+
+.rev-q { font-size:clamp(0.83rem,2.8vw,0.92rem); font-weight:700; margin-bottom:8px; line-height:1.55; }
+.rev-lec { font-size:clamp(0.63rem,2vw,0.7rem); color:var(--muted); background:var(--bg); padding:2px 9px; border-radius:20px; font-weight:600; display:inline-block; margin-bottom:9px; border:1px solid var(--border); }
+.rev-opts { display:flex; flex-direction:column; gap:5px; }
+.rev-opt {
+  padding:clamp(7px,2vw,9px) clamp(10px,3vw,13px); border-radius:9px;
+  font-size:clamp(0.77rem,2.5vw,0.85rem); font-weight:500;
+  display:flex; align-items:flex-start; gap:7px; line-height:1.45;
+}
+.rev-opt.co { background:#f0fdf4; color:#15803d; }
+.rev-opt.wo { background:#fef2f2; color:#dc2626; }
+.rev-opt.no { background:#f9fafb; color:var(--muted); }
+
+.back-btn2 {
+  display:block; width:100%;
+  padding:clamp(13px,3.5vw,16px);
+  background:linear-gradient(135deg,#4338ca,#6366f1);
+  color:#fff; border:none; border-radius:13px;
+  font-size:clamp(0.88rem,3vw,0.97rem); font-weight:700;
+  cursor:pointer; margin-top:14px; margin-bottom:30px;
+}
+
+/* scrollbar */
+::-webkit-scrollbar { width:5px; }
+::-webkit-scrollbar-track { background:var(--bg); }
+::-webkit-scrollbar-thumb { background:#c4b5fd; border-radius:3px; }
+
+/* responsive tweaks */
+@media (max-width:400px) {
+  .mode-toggle { grid-template-columns:1fr 1fr; }
+  .res-grid { grid-template-columns:1fr 1fr 1fr; }
+}
+@media (min-width:640px) {
+  .opts { gap:10px; }
+  .q-card { padding:28px 26px; }
+}
+
+/* 🌙 PREMIUM SOOTHING DARK MODE ══ */
+body.dark-mode {
+  --bg: #0f172a; /* Soft Slate 900 */
+  --card: #1e293b; /* Soft Slate 800 */
+  --text: #cbd5e1; /* Off-white Slate 300 - extremely easy on the eyes */
+  --muted: #94a3b8; /* Slate 400 */
+  --border: #334155; /* Slate 700 */
+  --primary-light: #1e1b4b; /* Deep Indigo bg */
+  --shadow: 0 4px 28px rgba(0,0,0,0.5);
+  --shadow-hover: 0 8px 32px rgba(99,102,241,0.2);
+  --primary: #818cf8; /* Soft Indigo */
+  --primary-dark: #6366f1;
+}
+
+body.dark-mode .header {
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 60%, #4338ca 100%);
+  box-shadow: 0 2px 20px rgba(0,0,0,0.5);
+}
+
+body.dark-mode .opt-btn {
+  background: #111827;
+  color: #cbd5e1;
+  border-color: #334155;
+}
+body.dark-mode .opt-btn:hover:not(:disabled) {
+  border-color: #818cf8;
+  background: #1e1b4b;
+  color: #e2e8f0;
+}
+body.dark-mode .opt-btn .ol {
+  background: #1f2937;
+  border-color: #334155;
+  color: #94a3b8;
+}
+body.dark-mode .opt-btn.correct {
+  border-color: #4ade80;
+  background: rgba(74, 222, 128, 0.1);
+  color: #4ade80;
+}
+body.dark-mode .opt-btn.correct .ol {
+  background: #22c55e;
+  color: #fff;
+  border-color: #22c55e;
+}
+body.dark-mode .opt-btn.wrong {
+  border-color: #f87171;
+  background: rgba(248, 113, 113, 0.1);
+  color: #f87171;
+}
+body.dark-mode .opt-btn.wrong .ol {
+  background: #ef4444;
+  color: #fff;
+  border-color: #ef4444;
+}
+body.dark-mode .q-lec-tag {
+  background: #1e293b;
+  color: #94a3b8;
+  border-color: #334155;
+}
+body.dark-mode .btn-skip {
+  background: #1e293b;
+  color: #cbd5e1;
+  border-color: #334155;
+}
+body.dark-mode .btn-skip:hover {
+  border-color: #818cf8;
+  color: #e2e8f0;
+  background: #1e1b4b;
+}
+body.dark-mode .rev-item {
+  border-left-width: 5px;
+}
+body.dark-mode .rev-opt.no {
+  background: #111827;
+  color: #94a3b8;
+  border-color: #334155;
+}
+body.dark-mode .rev-opt.co {
+  background: rgba(74, 222, 128, 0.1);
+  color: #4ade80;
+  border-color: #22c55e;
+}
+body.dark-mode .rev-opt.wo {
+  background: rgba(248, 113, 113, 0.1);
+  color: #f87171;
+  border-color: #ef4444;
+}
+body.dark-mode .rev-lec {
+  background: #111827;
+  color: #94a3b8;
+  border-color: #334155;
+}
+body.dark-mode ::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+body.dark-mode ::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+body.dark-mode .res-stat {
+  background: #111827;
+}
+body.dark-mode .btn-review2, body.dark-mode .btn-home2 {
+  background: #111827;
+}
+body.dark-mode .stat-pill {
+  background: #1e1b4b;
+}
+body.dark-mode .lec-badge {
+  background: #1e293b;
+  border-color: #334155;
+  color: #cbd5e1;
+}
+body.dark-mode #resumeBox {
+  background: #1e1b4b !important;
+  border-color: #4f46e5 !important;
+}
+
+/* 🎨 PREMIUM QBANK HIGHLIGHTS (UNIFIED SYMMETRICAL DESIGN) ══ */
+.qbank-opt {
+  background: #fafafa !important; /* Standard clean background */
+  color: var(--text) !important;
+  border: 1.5px solid var(--border) !important;
+  padding: 11px 15px !important;
+  border-radius: 12px !important;
+  margin-top: 6px !important;
+  font-weight: 500 !important;
+  font-size: 0.88rem !important;
+  text-align: left !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important; /* Pushes text to left and checkmark to right! */
+  gap: 10px !important;
+  transition: all 0.2s ease;
+  opacity: 1.0 !important; /* Fully opaque, clear and readable! */
+  width: 100% !important;
+}
+body.dark-mode .qbank-opt {
+  background: #1e293b !important; /* Slate 800 */
+  border-color: #334155 !important;
+}
+
+.qbank-opt.correct {
+  background: #ecfdf5 !important; /* Soothing premium green background */
+  border-color: #10b981 !important;
+  color: #065f46 !important;
+  font-weight: 700 !important;
+}
+body.dark-mode .qbank-opt.correct {
+  background: rgba(16, 185, 129, 0.12) !important;
+  color: #4ade80 !important;
+  border-color: #10b981 !important;
+}
+
+/* 📚 NEW PREMIUM QUESTION BANK DESIGN ══ */
+.qbank-card {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.015);
+  transition: all 0.25s ease;
+  position: relative;
+}
+body.dark-mode .qbank-card {
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.qbank-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(99,102,241,0.06);
+}
+body.dark-mode .qbank-card:hover {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+
+.qbank-meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.qbank-num-badge {
+  font-size: 0.74rem;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(99,102,241,0.08);
+}
+
+.qbank-lec-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--muted);
+  background: var(--bg);
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+}
+
+.qbank-star-btn {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+.qbank-star-btn:hover {
+  transform: scale(1.2);
+}
+
+.qbank-question-text {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.6;
+  margin-bottom: 14px;
+  text-align: left;
+}
+
+/* Premium Filter Buttons in QBank */
+#qbankFilters .lec-badge {
+  background: var(--card);
+  color: var(--text);
+  border: 1.5px solid var(--border);
+  font-weight: bold;
+  padding: 8px 14px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.01);
+}
+#qbankFilters .lec-badge:hover {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+
+/* 🎛️ TOGGLE SWITCH STYLES ══ */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 22px;
+}
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: var(--border);
+  transition: .3s;
+  border-radius: 22px;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .3s;
+  border-radius: 50%;
+}
+.switch input:checked + .slider {
+  background-color: #10b981;
+}
+.switch input:checked + .slider:before {
+  transform: translateX(22px);
+}
+
+/* ══════════════════════════════════════════════════════════
+   🌙 DARK MODE v2 — لوحة ألوان مريحة للعين (Soothing palette)
+   بيتحمّل آخر حاجة في الـ CSS فبياخد الأولوية على أي قاعدة قديمة
+══════════════════════════════════════════════════════════ */
+body.dark-mode {
+  --bg: #0e1621;              /* خلفية الصفحة — كحلي هادي */
+  --card: #17222f;            /* الكروت */
+  --text: #dbe4ef;            /* نص أساسي مش أبيض حرّاق */
+  --muted: #93a3b8;           /* نص ثانوي */
+  --border: #27364a;          /* الحدود */
+  --primary: #7f8cf0;         /* البنفسجي الأساسي */
+  --primary-dark: #aab5fb;    /* البنفسجي المستخدم كنص (كان غامق ومش مقروء) */
+  --primary-light: rgba(127,140,240,0.14);
+  --success: #34d399;
+  --danger: #f87171;
+  --warning: #fbbf24;
+  --shadow: 0 6px 26px rgba(0,0,0,0.45);
+  --shadow-hover: 0 10px 30px rgba(0,0,0,0.55);
+  background: var(--bg);
+  color: var(--text);
+}
+body.dark-mode .header {
+  background: linear-gradient(135deg, #1b2440 0%, #2b3563 55%, #414c8c 100%);
+  box-shadow: 0 2px 18px rgba(0,0,0,0.35);
+}
+
+/* ── الكروت والأسطح ── */
+body.dark-mode .q-card,
+body.dark-mode .home-hero,
+body.dark-mode .res-card,
+body.dark-mode .rev-item,
+body.dark-mode .qbank-card {
+  border-color: rgba(148,163,184,0.10);
+}
+body.dark-mode .stat-pill { background: rgba(127,140,240,0.10); }
+body.dark-mode .stat-pill .sl { color: var(--muted); }
+body.dark-mode .stat-pill .sn { color: var(--primary-dark); }
+body.dark-mode .lec-badge,
+body.dark-mode .q-lec-tag,
+body.dark-mode .rev-lec {
+  background: #1b2634;
+  border-color: var(--border);
+  color: var(--muted);
+}
+body.dark-mode .q-badge { background: rgba(127,140,240,0.13); color: var(--primary-dark); }
+
+/* ── الاختيارات في الاختبار ── */
+body.dark-mode .opt-btn {
+  background: #1d2938;
+  border-color: #2b3a4e;
+  color: var(--text);
+}
+body.dark-mode .opt-btn:hover:not(:disabled) {
+  background: rgba(127,140,240,0.10);
+  border-color: var(--primary);
+  color: #e8eef7;
+}
+body.dark-mode .opt-btn .ol {
+  background: #26344a;
+  border-color: #35465e;
+  color: #a8b6c9;
+}
+body.dark-mode .opt-btn.correct {
+  background: rgba(52,211,153,0.09);
+  border-color: #2f7a60;
+  color: #8fe3c2;
+}
+body.dark-mode .opt-btn.correct .ol {
+  background: #2f8f6b; border-color: #2f8f6b; color: #eafff6;
+}
+body.dark-mode .opt-btn.wrong {
+  background: rgba(248,113,113,0.09);
+  border-color: #8a4b4b;
+  color: #f2a8a8;
+}
+body.dark-mode .opt-btn.wrong .ol {
+  background: #a95252; border-color: #a95252; color: #fff5f5;
+}
+
+/* ── صندوق التصحيح (كان لونه بمبي/أبيض فاتح جدًا) ── */
+body.dark-mode .fb-box.correct {
+  background: rgba(52,211,153,0.08);
+  border-color: rgba(52,211,153,0.28);
+  color: #8fe3c2;
+}
+body.dark-mode .fb-box.wrong {
+  background: rgba(248,113,113,0.08);
+  border-color: rgba(248,113,113,0.26);
+  color: #f2a8a8;
+}
+
+/* ── أزرار ── */
+body.dark-mode .btn-skip {
+  background: #1b2634; color: var(--muted); border-color: var(--border);
+}
+body.dark-mode .btn-skip:hover {
+  background: rgba(127,140,240,0.12); color: #e8eef7; border-color: var(--primary);
+}
+body.dark-mode .btn-review2 { background: transparent; color: var(--primary-dark); }
+body.dark-mode .btn-home2 { background: transparent; }
+body.dark-mode .start-btn,
+body.dark-mode .set-banner,
+body.dark-mode .back-btn2,
+body.dark-mode .btn-retry,
+body.dark-mode .btn-next,
+body.dark-mode .show-result-btn {
+  filter: saturate(0.78) brightness(0.94);
+}
+
+/* ── شاشة النتيجة والمراجعة ── */
+body.dark-mode .res-stat { background: #1b2634; }
+body.dark-mode .rev-opt.no { background: #1b2634; color: var(--muted); border:1px solid var(--border); }
+body.dark-mode .rev-opt.co { background: rgba(52,211,153,0.09); color: #8fe3c2; }
+body.dark-mode .rev-opt.wo { background: rgba(248,113,113,0.09); color: #f2a8a8; }
+body.dark-mode .rev-item { border-left-color: #2b3a4e; }
+body.dark-mode #resumeBox {
+  background: rgba(127,140,240,0.08) !important;
+  border-color: rgba(127,140,240,0.45) !important;
+}
+
+/* ── بنك الأسئلة ── */
+body.dark-mode .qbank-opt {
+  background: #1b2634 !important;
+  border-color: #2b3a4e !important;
+  color: var(--text) !important;
+}
+body.dark-mode .qbank-opt.correct {
+  background: rgba(52,211,153,0.10) !important;
+  border-color: #2f7a60 !important;
+  color: #8fe3c2 !important;
+}
+body.dark-mode .qbank-num-badge {
+  background: rgba(127,140,240,0.13) !important;
+  border-color: rgba(127,140,240,0.14) !important;
+  color: var(--primary-dark) !important;
+}
+body.dark-mode .qbank-lec-badge { background: #1b2634; border-color: var(--border); color: var(--muted); }
+body.dark-mode #qbankFilters .lec-badge { background: #1b2634; color: var(--text); border-color: var(--border); }
+
+/* ── خانات الإدخال ── */
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea {
+  background: #1b2634 !important;
+  color: var(--text) !important;
+  border-color: #2b3a4e !important;
+}
+body.dark-mode input::placeholder { color: #7b8aa0; }
+body.dark-mode select option { background: #17222f; color: var(--text); }
+body.dark-mode mark { background: #a16207 !important; color: #fff8e1 !important; }
+
+/* ── سكرول ── */
+body.dark-mode ::-webkit-scrollbar-track { background: var(--bg); }
+body.dark-mode ::-webkit-scrollbar-thumb { background: #33445c; border-radius: 20px; }
+
+/* ── تظبيطات أخيرة ── */
+.set-banner { flex-wrap: wrap; }
+.set-banner > span { flex-basis: 100%; }
+body.dark-mode .set-banner { filter: saturate(0.68) brightness(0.9); }
+body.dark-mode #quizScreen > div[style*="position: fixed"] { box-shadow: 0 -4px 15px rgba(0,0,0,0.4); }
+body.dark-mode #quizScreen > div[style*="position: fixed"] button { filter: saturate(0.7) brightness(0.92); }
+body.dark-mode .home-hero h2 { color: var(--primary-dark); }
+body.dark-mode .mode-label,
+body.dark-mode .lec-badges-label { color: var(--muted); }
+
+
+/* ══ ترتيب العربي مع الإنجليزي ══ */
+.home-hero p { direction: rtl; }
+
+/* ══ 🧮 شيب مسألة الميد — جمب المواضيع ══ */
+.mid-chip {
+  border: 2px solid #f59e0b; color: #b45309;
+  background: rgba(245,158,11,.12); font-weight: 800;
+  cursor: pointer; outline: none;
+  transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+}
+.mid-chip:hover, .mid-chip:active { transform: translateY(-1px); background: rgba(245,158,11,.22); box-shadow: 0 4px 12px rgba(245,158,11,.35); }
+.mid-chip:focus-visible { box-shadow: 0 0 0 3px rgba(245,158,11,.35); }
+body.dark-mode .mid-chip { color: #fbbf24; background: rgba(245,158,11,.16); border-color: #f59e0b; }
+
+/* ══ ملاحظة درجة الكويز (4.8 / 5) ══ */
+.ml-note {
+  background: linear-gradient(135deg, rgba(16,185,129,.10), rgba(245,158,11,.12));
+  border: 2.5px dashed rgba(16,185,129,.55);
+  border-radius: 14px;
+  padding: clamp(12px,3.2vw,16px);
+  margin: 14px 0 6px;
+  text-align: right;
+  direction: rtl;
+}
+.ml-note .ml-note-title {
+  font-weight: 900; color: #0f766e;
+  font-size: clamp(.86rem,2.9vw,.98rem); margin-bottom: 6px;
+  display: flex; align-items: center; gap: 6px; justify-content: center;
+}
+.ml-note p { font-size: clamp(.76rem,2.5vw,.86rem); font-weight: 700; color: var(--text); line-height: 1.85; margin: 0; }
+.ml-note bdi { font-weight: 900; color: #b45309; unicode-bidi: isolate; }
+body.dark-mode .ml-note { background: rgba(16,185,129,.10); border-color: rgba(52,211,153,.45); }
+body.dark-mode .ml-note .ml-note-title { color: #34d399; }
+body.dark-mode .ml-note bdi { color: #fbbf24; }
+
+/* ══ كروت المجموعتين (كويز / AI) ══ */
+.set-card {
+  position: relative;
+  margin-bottom: 18px;
+  padding: clamp(14px, 3.5vw, 20px);
+  border: 2.5px solid rgba(99,102,241,.12);
+}
+.set-card.ai-set {
+  border-color: rgba(168,85,247,.32);
+  background: linear-gradient(135deg, rgba(168,85,247,.06), rgba(99,102,241,.03));
+}
+.set-head {
+  display: flex; align-items: center; gap: 10px;
+  padding-bottom: 8px; margin-bottom: 12px;
+  border-bottom: 2px solid var(--border);
+}
+.set-emoji { font-size: 1.5rem; line-height: 1; }
+.set-title { font-size: clamp(.86rem,3vw,.98rem); font-weight: 900; color: var(--primary-dark); }
+body.dark-mode .set-title { color: var(--primary); }
+.ai-set .set-title { color: #7c3aed; }
+body.dark-mode .ai-set .set-title { color: #c084fc; }
+.set-sub { font-size: clamp(.62rem,2.1vw,.7rem); font-weight: 700; color: var(--muted); margin-top: 2px; }
+.set-count {
+  background: rgba(99,102,241,.10); color: var(--primary-dark);
+  font-size: .66rem; font-weight: 900; padding: 4px 9px; border-radius: 20px; white-space: nowrap;
+}
+.ai-set .set-count { background: rgba(168,85,247,.14); color: #9333ea; }
+body.dark-mode .ai-set .set-count { color: #d8b4fe; }
+.set-select {
+  width: 100%; padding: 11px 13px; border-radius: 12px;
+  border: 2px solid var(--border); background: var(--card); color: var(--text);
+  font-weight: 700; font-size: clamp(.76rem,2.6vw,.86rem); outline: none; cursor: pointer;
+  transition: border-color .2s;
+}
+.ai-set .set-select { border-color: rgba(168,85,247,.35); }
+.special-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+#setCard_ai { padding-top: clamp(38px, 9vw, 42px); }
+.ai-flag {
+  position: absolute; top: 7px; left: 10px;
+  background: #a855f7; color: #fff;
+  font-size: 0.6rem; font-weight: 800;
+  padding: 3px 8px; border-radius: 20px; letter-spacing: .2px;
+}
+.ai-chip {
+  background: rgba(168,85,247,0.13); color: #9333ea;
+  border: 1px solid rgba(168,85,247,0.35); border-radius: 20px;
+  font-size: 0.62rem; font-weight: 800; padding: 2px 8px; white-space: nowrap;
+}
+body.dark-mode .ai-chip { background: rgba(168,85,247,0.20); color: #d8b4fe; border-color: rgba(168,85,247,0.45); }
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<div class="header" id="mainHeader" style="position: relative;">
+  <h1>🤖 ML &amp; Data Preprocessing</h1>
+  <p class="hdr-sub">Machine Learning &amp; Data Preprocessing &bull; <bdi>25</bdi> MCQ + <bdi>51</bdi> سؤال AI</p>
+  <button id="homeBtn" onclick="goHome()" style="display: none; position: absolute; top: clamp(12px, 3.5vw, 18px); left: clamp(12px, 3.5vw, 18px); background: rgba(255,255,255,0.18); border: none; border-radius: 50%; width: 38px; height: 38px; color: #fff; cursor: pointer; align-items: center; justify-content: center; font-size: 1.15rem; transition: all 0.2s; z-index: 101;" title="العودة للرئيسية">🏠</button>
+  <button id="themeToggleBtn" onclick="toggleDarkMode()" style="position: absolute; top: clamp(12px, 3.5vw, 18px); right: clamp(12px, 3.5vw, 18px); background: rgba(255,255,255,0.18); border: none; border-radius: 50%; width: 38px; height: 38px; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; transition: all 0.2s; z-index: 101;" title="تبديل الوضع الداكن">🌙</button>
+</div>
+
+<!-- ══════════════════════════════
+     HOME SCREEN
+══════════════════════════════ -->
+<div id="homeScreen" class="screen active">
+  <div class="home-wrap">
+    <div class="home-hero">
+      <div class="big-emoji">🤖</div>
+      <h2>Machine Learning &amp; Data Preprocessing</h2>
+      <p><bdi><strong>25 MCQ</strong></bdi> بتوع الكويز + <bdi><strong>51</strong></bdi> سؤال إضافي مُولّد بالـ <bdi>AI</bdi> — كل واحد ليه كرت لوحده فيه كل الأوضاع. اختار وابدأ!</p>
+
+      <div class="ml-note" id="homeGradeNote">
+        <div class="ml-note-title">📌 درجة الكويز: 4.8 من 5</div>
+        <p>الكويز ده كان من <bdi>5</bdi> درجات، والحل المرفوع أخد <bdi>4.8/5</bdi> — يعني فيه <strong>سؤال واحد غلط</strong>، ونتوقع إنه <strong>السؤال رقم 18</strong> (توقّف الـ K-Means)، والإجابة الصح المفروض تكون <bdi>Both A and C</bdi>. البوت بيحفظ إجابة الملف زي ما هي (<bdi>C</bdi>)، والتنبيه موجود فوق <strong>السؤال 18</strong> في الاختبار وبنك الأسئلة وشاشة المراجعة.</p>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-pill"><div class="sn" id="statQ">25</div><div class="sl">MCQs</div></div>
+        <div class="stat-pill"><div class="sn" id="statAI">51</div><div class="sl">أسئلة AI</div></div>
+        <div class="stat-pill"><div class="sn" id="statTopics">3</div><div class="sl">Topics</div></div>
+        <div class="stat-pill"><div class="sn">🏆</div><div class="sl">Score</div></div>
+      </div>
+
+      <div class="lec-badges-label" style="margin-top:16px">المواضيع اللي البوت بيغطيها:</div>
+      <div class="lec-badges" id="heroBadges"></div>
+    </div>
+
+    <!-- Resume Box if any progress saved -->
+    <div id="resumeBox" style="display:none; background:var(--primary-light); border: 2.5px dashed var(--primary); border-radius: 14px; padding: clamp(14px,3vw,18px); margin-bottom: 20px; text-align: center;">
+      <p style="font-weight: 800; color: var(--primary-dark); font-size: 1rem; display: flex; align-items: center; justify-content: center; gap: 6px;">💾 لديك اختبار غير مكتمل!</p>
+      <p style="font-size: 0.82rem; color: var(--muted); margin: 6px 0 14px;" id="resumeDetails">السؤال 12 من 47</p>
+      <div style="display: flex; gap: 10px; justify-content: center;">
+        <button class="resume-btn" style="flex: 1;" onclick="resumeQuiz()">🚀 استكمال الاختبار</button>
+        <button class="nav-btn btn-skip" style="flex: 1; padding: 10px; font-size: 0.82rem; background: #fee2e2; color: #ef4444; border-color: #fca5a5;" onclick="clearSavedProgress()">🗑️ بدء جديد</button>
+      </div>
+    </div>
+
+    <!-- ══ SETUP CARD: كويز الملف  ══ -->
+    <div class="q-card set-card " id="setCard_quiz">
+      
+      <div class="set-head">
+        <span class="set-emoji">📘</span>
+        <div style="flex:1; min-width:0;">
+          <div class="set-title">كويز الملف </div>
+          <div class="set-sub">كويز 25 سؤال</div>
+        </div>
+        <span class="set-count" id="setCount_quiz">25 سؤال</span>
+      </div>
+
+      <div class="mode-label" style="font-weight:800; color:var(--muted); font-size:.7rem; letter-spacing:.4px; margin-bottom:6px;">اختر الموضوع المستهدف / SELECT TOPIC</div>
+      <select id="sel_quiz" class="set-select">
+        <option value="all">📁 كل المواضيع — All topics</option>
+        <option value="L1">🧮 Data Preprocessing & Cleaning</option>
+        <option value="L2">🎯 Clustering & K-Means</option>
+        <option value="L3">📉 PCA · KNN · ML Models</option>
+      </select>
+
+      <div class="mode-label" style="font-weight:800; color:var(--muted); font-size:.7rem; letter-spacing:.4px; margin:14px 0 6px;">اختر طريقة الترتيب / CHOOSE ORDER MODE</div>
+      <div class="mode-toggle">
+        <div class="mode-card sel" id="modeInOrder_quiz" onclick="pickMode('inorder','quiz')" style="padding:10px 8px; gap:4px;">
+          <span class="mc-icon" style="color: #6366f1; font-size: 1.35rem;">📋</span>
+          <span style="font-weight: 800; color: var(--text);">In Order</span>
+          <span class="mc-desc" style="color: var(--muted); font-size: 0.65rem;">الأسئلة بالترتيب الأصلي</span>
+        </div>
+        <div class="mode-card" id="modeRandom_quiz" onclick="pickMode('random','quiz')" style="padding:10px 8px; gap:4px;">
+          <span class="mc-icon" style="color: #6366f1; font-size: 1.35rem;">🔀</span>
+          <span style="font-weight: 800; color: var(--text);">Random</span>
+          <span class="mc-desc" style="color: var(--muted); font-size: 0.65rem;">ترتيب وخيارات عشوائية</span>
+        </div>
+      </div>
+
+      <div class="mode-label" style="font-weight:800; color:var(--muted); font-size:.7rem; letter-spacing:.4px; margin:14px 0 6px;">أوضاع تدريب خاصة / SPECIAL MODES</div>
+      <div class="special-grid">
+        <div class="mode-card" id="wrong_quiz" onclick="startSpecialMode('wrong','quiz')" style="border-color: rgba(239,68,68,.25); background: rgba(239,68,68,.01); padding: 12px 6px; gap: 4px; border-radius: 12px;">
+          <span class="mc-icon" style="color: #ef4444; font-size: 1.35rem;">🔁</span>
+          <span style="font-weight: 800; color: var(--text); font-size: .82rem;">الأخطاء السابقة</span>
+          <span class="mc-desc" id="wrongCount_quiz" style="color: var(--muted); font-size: .62rem;">أخطائك السابقة (0 أسئلة)</span>
+        </div>
+        <div class="mode-card" id="flagged_quiz" onclick="startSpecialMode('flagged','quiz')" style="border-color: rgba(245,158,11,.25); background: rgba(245,158,11,.01); padding: 12px 6px; gap: 4px; border-radius: 12px;">
+          <span class="mc-icon" style="color: #f59e0b; font-size: 1.35rem;">⭐</span>
+          <span style="font-weight: 800; color: var(--text); font-size: .82rem;">الأسئلة المميزة</span>
+          <span class="mc-desc" id="flaggedCount_quiz" style="color: var(--muted); font-size: .62rem;">الأسئلة المميزة (0 أسئلة)</span>
+        </div>
+      </div>
+      <div class="mode-card" id="notLongest_quiz" onclick="startSpecialMode('not_longest','quiz')" style="border-color: rgba(99,102,241,.25); background: rgba(99,102,241,.01); margin-top: 10px; display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 10px; padding: 11px 12px; width: 100%; border-radius: 12px; text-align: left; cursor: pointer;">
+        <span class="mc-icon" style="color: #6366f1; font-size: 1.3rem;">🚫</span>
+        <div style="display: flex; flex-direction: column;">
+          <span style="font-weight: 800; color: var(--text); font-size: .8rem;">أسئلة خارج البصمجة (إجابة ليست الأطول)</span>
+          <span class="mc-desc" style="color: var(--muted); font-size: .65rem; text-align: left;">تصفية <span id="notLongestCount_quiz" style="font-weight:900; color:#6366f1;">…</span> سؤالاً</span>
+        </div>
+      </div>
+
+      <button class="start-btn" onclick="startQuiz('quiz')" style="margin-top: 16px; width: 100%; background: linear-gradient(135deg,#4338ca,#6366f1); box-shadow: 0 4px 14px rgba(67,56,202,.25);">🚀 ابدأ الاختبار (25 سؤال)</button>
+    </div>
+
+    <!-- ══ SETUP CARD: أسئلة الـ AI ══ -->
+    <div class="q-card set-card  ai-set" id="setCard_ai">
+            <span class="ai-flag">🤖 مُولّد بالـ AI</span>
+
+      <div class="set-head">
+        <span class="set-emoji">🤖</span>
+        <div style="flex:1; min-width:0;">
+          <div class="set-title">أسئلة الـ AI</div>
+          <div class="set-sub">51 سؤال مُولّد بالـ AI </div>
+        </div>
+        <span class="set-count" id="setCount_ai">51 سؤال</span>
+      </div>
+
+      <div class="mode-label" style="font-weight:800; color:var(--muted); font-size:.7rem; letter-spacing:.4px; margin-bottom:6px;">اختر الموضوع المستهدف / SELECT TOPIC</div>
+      <select id="sel_ai" class="set-select">
+        <option value="AI">🤖 كل أسئلة الـ AI — All 51 AI questions</option>
+      </select>
+
+      <div class="mode-label" style="font-weight:800; color:var(--muted); font-size:.7rem; letter-spacing:.4px; margin:14px 0 6px;">اختر طريقة الترتيب / CHOOSE ORDER MODE</div>
+      <div class="mode-toggle">
+        <div class="mode-card sel" id="modeInOrder_ai" onclick="pickMode('inorder','ai')" style="padding:10px 8px; gap:4px;">
+          <span class="mc-icon" style="color: #6366f1; font-size: 1.35rem;">📋</span>
+          <span style="font-weight: 800; color: var(--text);">In Order</span>
+          <span class="mc-desc" style="color: var(--muted); font-size: 0.65rem;">الأسئلة بالترتيب الأصلي</span>
+        </div>
+        <div class="mode-card" id="modeRandom_ai" onclick="pickMode('random','ai')" style="padding:10px 8px; gap:4px;">
+          <span class="mc-icon" style="color: #6366f1; font-size: 1.35rem;">🔀</span>
+          <span style="font-weight: 800; color: var(--text);">Random</span>
+          <span class="mc-desc" style="color: var(--muted); font-size: 0.65rem;">ترتيب وخيارات عشوائية</span>
+        </div>
+      </div>
+
+      <div class="mode-label" style="font-weight:800; color:var(--muted); font-size:.7rem; letter-spacing:.4px; margin:14px 0 6px;">أوضاع تدريب خاصة / SPECIAL MODES</div>
+      <div class="special-grid">
+        <div class="mode-card" id="wrong_ai" onclick="startSpecialMode('wrong','ai')" style="border-color: rgba(239,68,68,.25); background: rgba(239,68,68,.01); padding: 12px 6px; gap: 4px; border-radius: 12px;">
+          <span class="mc-icon" style="color: #ef4444; font-size: 1.35rem;">🔁</span>
+          <span style="font-weight: 800; color: var(--text); font-size: .82rem;">الأخطاء السابقة</span>
+          <span class="mc-desc" id="wrongCount_ai" style="color: var(--muted); font-size: .62rem;">أخطائك السابقة (0 أسئلة)</span>
+        </div>
+        <div class="mode-card" id="flagged_ai" onclick="startSpecialMode('flagged','ai')" style="border-color: rgba(245,158,11,.25); background: rgba(245,158,11,.01); padding: 12px 6px; gap: 4px; border-radius: 12px;">
+          <span class="mc-icon" style="color: #f59e0b; font-size: 1.35rem;">⭐</span>
+          <span style="font-weight: 800; color: var(--text); font-size: .82rem;">الأسئلة المميزة</span>
+          <span class="mc-desc" id="flaggedCount_ai" style="color: var(--muted); font-size: .62rem;">الأسئلة المميزة (0 أسئلة)</span>
+        </div>
+      </div>
+      <div class="mode-card" id="notLongest_ai" onclick="startSpecialMode('not_longest','ai')" style="border-color: rgba(99,102,241,.25); background: rgba(99,102,241,.01); margin-top: 10px; display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 10px; padding: 11px 12px; width: 100%; border-radius: 12px; text-align: left; cursor: pointer;">
+        <span class="mc-icon" style="color: #6366f1; font-size: 1.3rem;">🚫</span>
+        <div style="display: flex; flex-direction: column;">
+          <span style="font-weight: 800; color: var(--text); font-size: .8rem;">أسئلة خارج البصمجة (إجابة ليست الأطول)</span>
+          <span class="mc-desc" style="color: var(--muted); font-size: .65rem; text-align: left;">تصفية <span id="notLongestCount_ai" style="font-weight:900; color:#6366f1;">…</span> سؤالاً</span>
+        </div>
+      </div>
+
+      <button class="start-btn" onclick="startQuiz('ai')" style="margin-top: 16px; width: 100%; background: linear-gradient(135deg,#7c3aed,#a855f7); box-shadow: 0 4px 14px rgba(124,58,237,.25);">🚀 ابدأ الاختبار (51 سؤال)</button>
+    </div>
+
+    <!-- ══ بنك الأسئلة — لوحده تحت خالص ══ -->
+    <button class="start-btn" onclick="goToQBank()" style="background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 4px 14px rgba(5,150,105,0.22); margin-top: 4px; width: 100%;">
+      📚 بنك الأسئلة السريع — <span id="qbankStartCount">76</span> سؤال
+    </button>
+    <button class="start-btn" onclick="goToProblem()" style="background: linear-gradient(135deg, #f59e0b, #ea580c); box-shadow: 0 4px 14px rgba(234,88,12,0.25); margin-top: 10px; width: 100%;">
+      🧮 المسألة اللي الدكتور قالت عليها هتيجي في الميد
+    </button>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     QUIZ SCREEN (ورقة الامتحان المفتوحة)
+══════════════════════════════ -->
+<div id="quizScreen" class="screen">
+  <div class="quiz-wrap" style="max-width: 680px; padding-bottom: 90px;">
+    <div class="set-banner" id="quizBanner" style="background: linear-gradient(135deg,#4338ca,#818cf8);">🖥️ ورقة الاختبار المفتوحة</div>
+    
+    <!-- This container will hold all the rendered question cards -->
+    <div id="quizQuestionsContainer"></div>
+    
+    <!-- Submit Button at the bottom of the list -->
+    <button class="show-result-btn" onclick="submitQuiz()" style="background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 4px 14px rgba(5,150,105,0.3); margin-top: 20px; font-weight: 800; font-size: 1.05rem; width: 100%;">
+      📊 إنهاء الاختبار وعرض النتيجة النهائية
+    </button>
+  </div>
+  
+  <!-- Floating Bottom Progress Bar -->
+  <div style="position: fixed; bottom: 0; left: 0; right: 0; background: var(--card); border-top: 2px solid var(--border); padding: 12px 20px; z-index: 100; box-shadow: 0 -4px 15px rgba(0,0,0,0.08); display: flex; align-items: center; justify-content: space-between; max-width: 680px; margin: 0 auto; border-radius: 16px 16px 0 0;">
+    <div style="display: flex; flex-direction: column; gap: 4px; text-align: left;">
+      <span style="font-size: 0.82rem; font-weight: bold; color: var(--text);" id="quizFloatingProgress">تم حل 0 من أصل 0 سؤال</span>
+      <div class="progress-bar-wrap" style="width: 140px; height: 6px; margin-top: 0; background: rgba(0,0,0,0.1);"><div class="progress-bar-fill" id="quizFloatingBar" style="width:0%; background: var(--primary);"></div></div>
+    </div>
+    <button onclick="submitQuiz()" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; border-radius: 10px; padding: 10px 18px; font-size: 0.85rem; font-weight: bold; cursor: pointer; transition: transform 0.1s;">إنهاء وتسليم 📄</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     RESULT SCREEN
+══════════════════════════════ -->
+<div id="resultScreen" class="screen">
+  <div class="res-wrap">
+    <div class="res-card">
+      <div class="res-emoji" id="resEmoji">🏆</div>
+      <div class="res-title" id="resTitle">Quiz Complete!</div>
+      <div class="res-sub"   id="resSub">Well done!</div>
+      <div class="score-ring" id="scoreRing">
+        <span class="pct"  id="resPct">0%</span>
+        <span class="slbl">Score</span>
+      </div>
+      <div class="res-grid">
+        <div class="res-stat"><div class="rn" id="rC" style="color:#22c55e">0</div><div class="rl">✅ Correct</div></div>
+        <div class="res-stat"><div class="rn" id="rW" style="color:#ef4444">0</div><div class="rl">❌ Wrong</div></div>
+        <div class="res-stat"><div class="rn" id="rS" style="color:#f59e0b">0</div><div class="rl">⏭ Skipped</div></div>
+      </div>
+      <div class="res-acts">
+        <button class="btn-retry" id="btnRetryWrong" onclick="retryWrongOnly()" style="background: linear-gradient(135deg, #ef4444, #f43f5e); box-shadow: 0 4px 14px rgba(239,68,68,0.25); margin-bottom: 5px; display: none;">🔁 اختبار الأخطاء فقط</button>
+        <button class="btn-retry"   onclick="retryQuiz()">🔄 Try Again</button>
+        <button class="btn-review2" onclick="goReview()">📝 Review Answers</button>
+        <button class="btn-home2"   onclick="goHome()">🏠 Home</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     REVIEW SCREEN
+══════════════════════════════ -->
+<div id="reviewScreen" class="screen">
+  <div class="rev-wrap">
+    <div class="rev-hdr">
+      <h2>📝 Answer Review</h2>
+      <p>كل الأسئلة (<bdi><span id="revAllCount">76</span></bdi>) مع الإجابات الصح</p>
+    </div>
+    <div id="revList"></div>
+    <button class="back-btn2" onclick="goResult()">← Back to Results</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     QUESTION BANK SCREEN (بنك الأسئلة)
+══════════════════════════════ -->
+<div id="qbankScreen" class="screen">
+  <div class="rev-wrap" style="max-width: 720px;">
+    <div class="set-banner" style="background: linear-gradient(135deg,#10b981,#059669); margin-bottom: 15px; font-size: 1.05rem; font-weight: 800; justify-content: center; display: flex; align-items: center; gap: 8px;">
+      📚 بنك الأسئلة والمراجعة السريعة (بدون اختبار)
+    </div>
+    
+    <!-- Search and Filters Card -->
+    <div class="q-card" style="margin-bottom: 15px; padding: clamp(12px, 3.5vw, 18px);">
+      
+      <!-- Instant Search Bar -->
+      <div style="margin-bottom: 14px; position: relative;">
+        <input type="text" id="qbankSearchInput" oninput="searchQBank()" placeholder="🔍 ابحث بالكلمات في الأسئلة والإجابات..." style="width: 100%; padding: 12px 15px; border-radius: 12px; border: 2px solid var(--border); background: var(--card); color: var(--text); font-weight: bold; font-size: 0.88rem; outline: none; transition: border-color 0.2s;">
+      </div>
+
+      <div style="font-size: 0.88rem; font-weight: 800; margin-bottom: 10px; color: var(--text);">اختر الفلتر لعرض الأسئلة وإجاباتها:</div>
+      
+      <!-- Quick Filters Grid -->
+      <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;" id="qbankFilters">
+        <button class="lec-badge" style="cursor: pointer; padding: 6px 12px;" onclick="setQBankFilter('all')" id="qbf_all">الكل (76)</button>
+        <button class="lec-badge" style="cursor: pointer; padding: 6px 12px; border-color: #6366f1; color: #6366f1; font-weight: bold;" onclick="setQBankFilter('not_longest')" id="qbf_not_longest">🚫 إجابة ليست الأطول</button>
+        <button class="lec-badge" style="cursor: pointer; padding: 6px 12px; border-color: #f59e0b; color: #f59e0b;" onclick="setQBankFilter('flagged')" id="qbf_flagged">المميزة بنجمة (0)</button>
+        <button class="lec-badge" style="cursor: pointer; padding: 6px 12px; border-color: #ef4444; color: #ef4444;" onclick="setQBankFilter('wrong')" id="qbf_wrong">الأخطاء السابقة (0)</button>
+      </div>
+      
+      <!-- Lecture Filter Row -->
+      <div style="font-size: 0.8rem; font-weight: 700; margin-bottom: 6px; color: var(--muted);">المواضيع:</div>
+      <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+        <button class="lec-badge" style="cursor: pointer;" onclick="setQBankFilter('L1')" id="qbf_L1">🧮 Data Preprocessing & Cleaning</button>
+        <button class="lec-badge" style="cursor: pointer;" onclick="setQBankFilter('L2')" id="qbf_L2">🎯 Clustering & K-Means</button>
+        <button class="lec-badge" style="cursor: pointer;" onclick="setQBankFilter('L3')" id="qbf_L3">📉 PCA · KNN · ML Models</button>
+        <button class="lec-badge" style="cursor: pointer; border-color: #a855f7; color: #a855f7;" onclick="setQBankFilter('L4')" id="qbf_L4">🤖 أسئلة الـ AI (51)</button>
+      </div>
+    </div>
+
+    <!-- Questions Container -->
+    <div id="qbankList"></div>
+
+    <button class="back-btn2" onclick="goHome()" style="background: var(--bg); color: var(--muted); border: 2px solid var(--border) !important; margin-top: 15px; width: 100%;">🏠 العودة للرئيسية</button>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════
+     THE MID-TERM PROBLEM SCREEN (K-means numerical example)
+══════════════════════════════ -->
+<div id="problemScreen" class="screen" dir="rtl">
+  <div class="rev-wrap" style="max-width: 760px;">
+    <div class="set-banner" style="background: linear-gradient(135deg,#ea580c,#f59e0b); margin-bottom: 15px; font-size: 1.02rem; font-weight: 800; justify-content: center; display: flex; align-items: center; gap: 8px; text-align:center;">
+      🧮 مسألة الـ <bdi>K-Means</bdi><span style="display:block; font-size:0.7rem; font-weight:600; opacity:.95; margin-top:4px;">الدكتورة قالت إن المسألة دي هتيجي في الميد — من محاضرة 2 part 2</span>
+    </div>
+
+    <div style="background:var(--card); border:2px solid var(--border); border-radius:14px; padding:clamp(12px,3.4vw,18px); margin-bottom:14px; text-align:right;">
+      <div style="font-size:clamp(.84rem,2.9vw,.96rem); font-weight:900; color:var(--primary-dark); margin-bottom:8px; display:flex; align-items:center; gap:8px;">📌 نص المسألة</div>
+      <p style="font-size:clamp(.76rem,2.5vw,.86rem); font-weight:700; color:var(--text); line-height:1.95; margin:0 0 6px;">طبّق خوارزمية <bdi>K-Means</bdi> على البيانات دي بعدد عناقيد <bdi>K = 2</bdi>، ولمدة <b>تكرارين</b> <bdi>(2 iterations)</bdi>، وبيّن العناقيد الناتجة:</p>
+      <div style="direction:ltr; text-align:center; font-family:ui-monospace,Menlo,Consolas,monospace; font-size:clamp(.7rem,2.35vw,.82rem); font-weight:700; background:rgba(99,102,241,.07); border:1.5px dashed rgba(99,102,241,.35); border-radius:10px; padding:9px 10px; margin:8px 0; overflow-x:auto; color:var(--text);">D = {(185, 72), (170, 56), (168, 60),<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(179, 68), (182, 72), (188, 77)}</div>
+      <p style="font-size:clamp(.76rem,2.5vw,.86rem); font-weight:700; color:var(--text); line-height:1.95; margin:0 0 6px;">وابدأ بأول نقطتين من البيانات كـ <bdi>initial centroids</bdi> — يعني أول اتنين من الـ <bdi>objects</bdi> اللي في الجدول اللي تحت.</p>
+      <div style="overflow-x:auto; margin:10px 0;">
+<table dir="ltr" style="width:100%; border-collapse:collapse; font-size:clamp(0.66rem,2.25vw,0.8rem); background:var(--card);">
+<tr><th style="border:1.5px solid var(--border); padding:6px 5px; background:var(--primary-light); color:var(--primary-dark); font-weight:800; text-align:center;">Instance</th><th style="border:1.5px solid var(--border); padding:6px 5px; background:var(--primary-light); color:var(--primary-dark); font-weight:800; text-align:center;">X</th><th style="border:1.5px solid var(--border); padding:6px 5px; background:var(--primary-light); color:var(--primary-dark); font-weight:800; text-align:center;">Y</th></tr>
+<tr><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">1</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">185</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">72</td></tr>
+<tr><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">2</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">170</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">56</td></tr>
+<tr><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">3</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">168</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">60</td></tr>
+<tr><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">4</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">179</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">68</td></tr>
+<tr><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">5</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">182</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">72</td></tr>
+<tr><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">6</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">188</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">77</td></tr>
+</table>
+</div>
+      <p style="font-size:clamp(.76rem,2.5vw,.86rem); font-weight:700; color:var(--text); line-height:1.95; margin:0 0 6px;">عدد العناقيد <bdi>K = 2</bdi> (نسمّيهم <bdi>c1</bdi> و <bdi>c2</bdi>)، وعدد التكرارات المطلوبة اتنين.</p>
+    </div>
+
+    <div style="background:var(--card); border:2px solid var(--border); border-radius:14px; padding:clamp(12px,3.4vw,18px); margin-bottom:14px; text-align:right;">
+      <div style="font-size:clamp(.84rem,2.9vw,.96rem); font-weight:900; color:var(--primary-dark); margin-bottom:8px; display:flex; align-items:center; gap:8px;">1️⃣ المراكز الأولية (Initial Centroids)</div>
+      <div style="direction:ltr; text-align:center; font-family:ui-monospace,Menlo,Consolas,monospace; font-size:clamp(.7rem,2.35vw,.82rem); font-weight:700; background:rgba(99,102,241,.07); border:1.5px dashed rgba(99,102,241,.35); border-radius:10px; padding:9px 10px; margin:8px 0; overflow-x:auto; color:var(--text);">c1 = (185, 72)   ← first object<br>c2 = (170, 56)   ← second object</div>
+      <p style="font-size:clamp(.76rem,2.5vw,.86rem); font-weight:700; color:var(--text); line-height:1.95; margin:0 0 6px;">بناخد أول نقطتين من البيانات زي ما هم، من غير أي حساب.</p>
+    </div>
+
+    <div style="background:var(--card); border:2px solid var(--border); border-radius:14px; padding:clamp(12px,3.4vw,18px); margin-bottom:14px; text-align:right;">
+      <div style="font-size:clamp(.84rem,2.9vw,.96rem); font-weight:900; color:var(--primary-dark); margin-bottom:8px; display:flex; align-items:center; gap:8px;">2️⃣ التكرار الأول (Iteration 1) — نحسب المسافة الإقليدية</div>
+      <div style="direction:ltr; text-align:center; font-family:ui-monospace,Menlo,Consolas,monospace; font-size:clamp(.7rem,2.35vw,.82rem); font-weight:700; background:rgba(99,102,241,.07); border:1.5px dashed rgba(99,102,241,.35); border-radius:10px; padding:9px 10px; margin:8px 0; overflow-x:auto; color:var(--text);">d(A, B) = √((x₂ − x₁)² + (y₂ − y₁)²)</div>
+      <p style="font-size:clamp(.76rem,2.5vw,.86rem); font-weight:700; color:var(--text); line-height:1.95; margin:0 0 6px;">مثال للنقطة 3:</p>
+      <div style="direction:ltr; text-align:center; font-family:ui-monospace,Menlo,Consolas,monospace; font-size:clamp(.7rem,2.35vw,.82rem); font-weight:700; background:rgba(99,102,241,.07); border:1.5px dashed rgba(99,102,241,.35); border-radius:10px; padding:9px 10px; margin:8px 0; overflow-x:auto; color:var(--text);">d(c1, 3) = √((185−168)² + (72−60)²) = √(289 + 144) = √433 = 20.81<br>d(c2, 3) = √((170−168)² + (56−60)²) = √(4 + 16) = √20 = 4.47</div>
+      <p style="font-size:clamp(.76rem,2.5vw,.86rem); font-weight:700; color:var(--text); line-height:1.95; margin:0 0 6px;">بما إن <bdi>d(c2, 3)</bdi> أصغر من <bdi>d(c1, 3)</bdi>، يبقى النقطة 3 بتنضم لـ <bdi>c2</bdi>. وبنفس الطريقة لكل النقط:</p>
+      <div style="overflow-x:auto; margin:10px 0;">
+<table dir="ltr" style="width:100%; border-collapse:collapse; font-size:clamp(0.66rem,2.25vw,0.8rem); background:var(--card);">
+<tr><th style="border:1.5px solid var(--border); padding:6px 5px; background:var(--primary-light); color:var(--primary-dark); font-weight:800; text-align:center;">Inst.</th><th style="border:1.5px solid var(--border); padding:6px 5px; background:var(--primary-light); color:var(--primary-dark); font-weight:800; text-align:center;">X</th><th style="border:1.5px solid var(--border); padding:6px 5px; background:var(--primary-light); color:var(--primary-dark); font-weight:800; text-align:center;">Y</th><th style="border:1.5px solid var(--border); padding:6px 5px; background:var(--primary-light); color:var(--primary-dark); font-weight:800; text-align:center;">d(C1)</th><th style="border:1.5px solid var(--border); padding:6px 5px; background:var(--primary-light); color:var(--primary-dark); font-weight:800; text-align:center;">d(C2)</th><th style="border:1.5px solid var(--border); padding:6px 5px; background:var(--primary-light); color:var(--primary-dark); font-weight:800; text-align:center;">Cluster</th></tr>
+<tr><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">1</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">185</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">72</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">0</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">√481 = 21.93</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:#0f766e; font-weight:900; background:rgba(16,185,129,.07);"><b>c1</b></td></tr>
+<tr><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">2</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">170</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">56</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">√481 = 21.93</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">0</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:#0f766e; font-weight:900; background:rgba(16,185,129,.07);"><b>c2</b></td></tr>
+<tr><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">3</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">168</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">60</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">√433 = 20.81</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">√20 = 4.47</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:#0f766e; font-weight:900; background:rgba(16,185,129,.07);"><b>c2</b></td></tr>
+<tr><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">4</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">179</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">68</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">√52 = 7.21</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">√225 = 15</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:#0f766e; font-weight:900; background:rgba(16,185,129,.07);"><b>c1</b></td></tr>
+<tr><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">5</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">182</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">72</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">√9 = 3</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">√400 = 20</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:#0f766e; font-weight:900; background:rgba(16,185,129,.07);"><b>c1</b></td></tr>
+<tr><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">6</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">188</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">77</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">√34 = 5.83</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">√765 = 27.66</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:#0f766e; font-weight:900; background:rgba(16,185,129,.07);"><b>c1</b></td></tr>
+</table>
+</div>
+      <p style="font-size:clamp(.76rem,2.5vw,.86rem); font-weight:700; color:var(--text); line-height:1.95; margin:0 0 6px;"><b>النتيجة بعد التكرار الأول:</b></p>
+      <div style="direction:ltr; text-align:center; font-family:ui-monospace,Menlo,Consolas,monospace; font-size:clamp(.7rem,2.35vw,.82rem); font-weight:700; background:rgba(99,102,241,.07); border:1.5px dashed rgba(99,102,241,.35); border-radius:10px; padding:9px 10px; margin:8px 0; overflow-x:auto; color:var(--text);">c1 = {1, 4, 5, 6}<br>c2 = {2, 3}</div>
+    </div>
+
+    <div style="background:var(--card); border:2px solid var(--border); border-radius:14px; padding:clamp(12px,3.4vw,18px); margin-bottom:14px; text-align:right;">
+      <div style="font-size:clamp(.84rem,2.9vw,.96rem); font-weight:900; color:var(--primary-dark); margin-bottom:8px; display:flex; align-items:center; gap:8px;">3️⃣ التكرار التاني (Iteration 2) — نحدّث المراكز بالمتوسط</div>
+      <p style="font-size:clamp(.76rem,2.5vw,.86rem); font-weight:700; color:var(--text); line-height:1.95; margin:0 0 6px;">المركز الجديد بيبقى متوسط إحداثيات كل النقط اللي في العنقود:</p>
+      <div style="direction:ltr; text-align:center; font-family:ui-monospace,Menlo,Consolas,monospace; font-size:clamp(.7rem,2.35vw,.82rem); font-weight:700; background:rgba(99,102,241,.07); border:1.5px dashed rgba(99,102,241,.35); border-radius:10px; padding:9px 10px; margin:8px 0; overflow-x:auto; color:var(--text);">c1 = ((185+179+182+188)/4 , (72+68+72+77)/4) = (183.5 , 72.25)<br>c2 = ((170+168)/2 , (56+60)/2) = (169 , 58)</div>
+      <p style="font-size:clamp(.76rem,2.5vw,.86rem); font-weight:700; color:var(--text); line-height:1.95; margin:0 0 6px;">وبعدين نعيد حساب المسافات بالمراكز الجديدة:</p>
+      <div style="overflow-x:auto; margin:10px 0;">
+<table dir="ltr" style="width:100%; border-collapse:collapse; font-size:clamp(0.66rem,2.25vw,0.8rem); background:var(--card);">
+<tr><th style="border:1.5px solid var(--border); padding:6px 5px; background:var(--primary-light); color:var(--primary-dark); font-weight:800; text-align:center;">Inst.</th><th style="border:1.5px solid var(--border); padding:6px 5px; background:var(--primary-light); color:var(--primary-dark); font-weight:800; text-align:center;">X</th><th style="border:1.5px solid var(--border); padding:6px 5px; background:var(--primary-light); color:var(--primary-dark); font-weight:800; text-align:center;">Y</th><th style="border:1.5px solid var(--border); padding:6px 5px; background:var(--primary-light); color:var(--primary-dark); font-weight:800; text-align:center;">d(C1)</th><th style="border:1.5px solid var(--border); padding:6px 5px; background:var(--primary-light); color:var(--primary-dark); font-weight:800; text-align:center;">d(C2)</th><th style="border:1.5px solid var(--border); padding:6px 5px; background:var(--primary-light); color:var(--primary-dark); font-weight:800; text-align:center;">Cluster</th></tr>
+<tr><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">1</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">185</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">72</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">1.5207</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">21.2603</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:#0f766e; font-weight:900; background:rgba(16,185,129,.07);"><b>c1</b></td></tr>
+<tr><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">2</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">170</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">56</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">21.1261</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">2.2361</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:#0f766e; font-weight:900; background:rgba(16,185,129,.07);"><b>c2</b></td></tr>
+<tr><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">3</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">168</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">60</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">19.7563</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">2.2361</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:#0f766e; font-weight:900; background:rgba(16,185,129,.07);"><b>c2</b></td></tr>
+<tr><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">4</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">179</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">68</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">6.1897</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">14.1421</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:#0f766e; font-weight:900; background:rgba(16,185,129,.07);"><b>c1</b></td></tr>
+<tr><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">5</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">182</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">72</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">1.5207</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">19.1050</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:#0f766e; font-weight:900; background:rgba(16,185,129,.07);"><b>c1</b></td></tr>
+<tr><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">6</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">188</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">77</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">6.5431</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:var(--text); font-weight:600;">26.8701</td><td style="border:1.5px solid var(--border); padding:6px 5px; text-align:center; color:#0f766e; font-weight:900; background:rgba(16,185,129,.07);"><b>c1</b></td></tr>
+</table>
+</div>
+      <p style="font-size:clamp(.76rem,2.5vw,.86rem); font-weight:700; color:var(--text); line-height:1.95; margin:0 0 6px;">التوزيع ما اتغيّرش عن التكرار الأول:</p>
+      <div style="direction:ltr; text-align:center; font-family:ui-monospace,Menlo,Consolas,monospace; font-size:clamp(.7rem,2.35vw,.82rem); font-weight:700; background:rgba(99,102,241,.07); border:1.5px dashed rgba(99,102,241,.35); border-radius:10px; padding:9px 10px; margin:8px 0; overflow-x:auto; color:var(--text);">c1 = {1, 4, 5, 6}<br>c2 = {2, 3}</div>
+    </div>
+
+    <div style="background:var(--card); border:2px solid var(--border); border-radius:14px; padding:clamp(12px,3.4vw,18px); margin-bottom:14px; text-align:right;">
+      <div style="font-size:clamp(.84rem,2.9vw,.96rem); font-weight:900; color:var(--primary-dark); margin-bottom:8px; display:flex; align-items:center; gap:8px;">4️⃣ التوقف (Stop Training)</div>
+      <p style="font-size:clamp(.76rem,2.5vw,.86rem); font-weight:700; color:var(--text); line-height:1.95; margin:0 0 6px;">إحنا كمّلنا التكرارين اللي السؤال طلبهم، وكمان <b>التوزيع ثبت ومتغيّرش</b> → بنوقف الخوارزمية (convergence) حتى لو السؤال طلب تكرارات أكتر.</p>
+      <p style="font-size:clamp(.76rem,2.5vw,.86rem); font-weight:700; color:var(--text); line-height:1.95; margin:0 0 6px;">وده نفس فكرة سؤال «توقّف الـ <bdi>K-Means</bdi>» في الكويز: بنقف لما المراكز تبقى تقريبًا مش بتتغيّر.</p>
+    </div>
+
+    <div style="background:linear-gradient(135deg, rgba(16,185,129,.10), rgba(99,102,241,.08)); border:2.5px solid rgba(16,185,129,.45); border-radius:14px; padding:clamp(12px,3.4vw,18px); margin-bottom:14px; text-align:right;">
+      <div style="font-size:clamp(.86rem,2.9vw,.98rem); font-weight:900; color:#0f766e; margin-bottom:8px;">✅ الإجابة النهائية (اللي تتكتب في الورقة)</div>
+      <div style="direction:ltr; text-align:center; font-family:ui-monospace,Menlo,Consolas,monospace; font-size:clamp(.7rem,2.35vw,.82rem); font-weight:700; background:rgba(99,102,241,.07); border:1.5px dashed rgba(99,102,241,.35); border-radius:10px; padding:9px 10px; margin:8px 0; overflow-x:auto; color:var(--text);">Cluster 1 = {(185,72), (179,68), (182,72), (188,77)}<br>Center 1  = (183.5, 72.25)</div>
+      <div style="direction:ltr; text-align:center; font-family:ui-monospace,Menlo,Consolas,monospace; font-size:clamp(.7rem,2.35vw,.82rem); font-weight:700; background:rgba(99,102,241,.07); border:1.5px dashed rgba(99,102,241,.35); border-radius:10px; padding:9px 10px; margin:8px 0; overflow-x:auto; color:var(--text);">Cluster 2 = {(170,56), (168,60)}<br>Center 2  = (169, 58)</div>
+      <p style="font-size:clamp(.76rem,2.5vw,.86rem); font-weight:700; color:var(--text); line-height:1.95; margin:0 0 6px;">ملحوظة: لو طلبوا تكرار تالت، هتطلع نفس المراكز ونفس العناقيد — يعني الإجابة مش هتتغيّر.</p>
+    </div>
+
+    <div style="background:rgba(245,158,11,.10); border:2px dashed rgba(245,158,11,.55); border-radius:14px; padding:clamp(12px,3.4vw,16px); margin-bottom:14px; text-align:right;">
+      <div style="font-size:clamp(.8rem,2.7vw,.9rem); font-weight:900; color:#b45309; margin-bottom:6px;">🎯 الترتيب اللي بتحل بيه أي مسألة K-Means</div>
+      <p style="font-size:clamp(.76rem,2.5vw,.86rem); font-weight:700; color:var(--text); line-height:1.95; margin:0 0 6px;">1️⃣ حدّد <bdi>K</bdi> والمراكز الأولية — غالبًا أول <bdi>K</bdi> نقط، أو زي ما السؤال يقول.</p>
+      <p style="font-size:clamp(.76rem,2.5vw,.86rem); font-weight:700; color:var(--text); line-height:1.95; margin:0 0 6px;">2️⃣ احسب مسافة كل نقطة لكل مركز، ووزّعها على المركز <b>الأقرب</b>.</p>
+      <p style="font-size:clamp(.76rem,2.5vw,.86rem); font-weight:700; color:var(--text); line-height:1.95; margin:0 0 6px;">3️⃣ حدّث كل مركز بحيث يبقى <b>متوسط</b> إحداثيات نقاط عنقوده.</p>
+      <p style="font-size:clamp(.76rem,2.5vw,.86rem); font-weight:700; color:var(--text); line-height:1.95; margin:0 0 6px;">4️⃣ كرّر لحد ما التوزيع والمراكز يثبتوا، وبعدها <b>قف</b>.</p>
+    </div>
+
+    <button class="back-btn2" onclick="goHome()" style="background: var(--bg); color: var(--muted); border: 2px solid var(--border) !important; margin-top: 15px; width: 100%;">🏠 العودة للرئيسية</button>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════
+//  QUESTION BANK — 25 MCQ (guide) + 51 AI questions
+// ══════════════════════════════════════════════════════
+const LEC_LABEL_KEYS = ['L1', 'L2', 'L3'];
+const LEC_LABELS = { 'L1': '🧮 Data Preprocessing & Cleaning', 'L2': '🎯 Clustering & K-Means', 'L3': '📉 PCA · KNN · ML Models' };
+const LEC_CODES  = { 'L1': 'Preprocessing', 'L2': 'Clustering', 'L3': 'PCA/KNN/Models' };
+
+const QUESTIONS = [
+  {
+    "lec": "Preprocessing",
+    "n": 1,
+    "q": "Which of the following methods can be used for handling missing data during data preprocessing?",
+    "opts": [
+      "Replacing missing values with zeros.",
+      "Ignoring missing values during training.",
+      "All of them",
+      "Make imputation with mean or median"
+    ],
+    "ans": 2
+  },
+  {
+    "lec": "Clustering",
+    "n": 2,
+    "q": "How are the centroids updated in the K-Means algorithm?",
+    "opts": [
+      "By calculating the mode of all data points assigned to each centroid",
+      "By calculating the sum of all data points assigned to each centroid",
+      "By calculating the median of all data points assigned to each centroid",
+      "By calculating the mean of all data points assigned to each centroid"
+    ],
+    "ans": 3
+  },
+  {
+    "lec": "Clustering",
+    "n": 3,
+    "q": "What is the objective function in K-Means?",
+    "opts": [
+      "To maximize the sum of squared distances between data points and their respective cluster centroids",
+      "To minimize the sum of squared distances between data points and their respective cluster centroids",
+      "To minimize the distance between centroids",
+      "To maximize the distance between centroids"
+    ],
+    "ans": 1
+  },
+  {
+    "lec": "Preprocessing",
+    "n": 4,
+    "q": "Which one of the following is the best feature set for your analysis?",
+    "opts": [
+      "Feature set that contains exclusively re-coded features",
+      "Feature set with the smallest number of features",
+      "Feature set with the most significant set of features",
+      "Feature set with the largest number of features"
+    ],
+    "ans": 2
+  },
+  {
+    "lec": "Preprocessing",
+    "n": 5,
+    "q": "What is the purpose of data normalization?",
+    "opts": [
+      "To scale the data to a fixed range, usually 0 to 1",
+      "To remove outliers",
+      "To increase the number of features",
+      "To reduce the number of features"
+    ],
+    "ans": 0
+  },
+  {
+    "lec": "Preprocessing",
+    "n": 6,
+    "q": "What is the first step in data preprocessing?",
+    "opts": [
+      "Data Transformation",
+      "Data Integration",
+      "Data Reduction",
+      "Data Cleaning"
+    ],
+    "ans": 3
+  },
+  {
+    "lec": "Clustering",
+    "n": 7,
+    "q": "Given a dataset with three points (2, 3), (3, 4), and (6, 8) and K=2, what is the first step in K-means clustering?",
+    "opts": [
+      "Assign each point to the nearest cluster",
+      "Randomly initialize two centroids",
+      "Compute the distance between all points",
+      "Compute the mean value for centroids"
+    ],
+    "ans": 1
+  },
+  {
+    "lec": "Clustering",
+    "n": 8,
+    "q": "What is the main goal of clustering algorithms?",
+    "opts": [
+      "To find the best linear separation between data points",
+      "To fit a model to the data",
+      "To partition data into distinct groups or clusters based on similarity",
+      "To reduce the dimensionality of data"
+    ],
+    "ans": 2
+  },
+  {
+    "lec": "Clustering",
+    "n": 9,
+    "q": "After assigning data points to their nearest centroids, how are the new coordinates of the centroids calculated?",
+    "opts": [
+      "By calculating the average (mean) of the items categorized in that cluster.",
+      "By calculating the median of the items categorized in that cluster.",
+      "By randomly selecting a new point from the dataset.",
+      "By finding the maximum distance between points in the cluster."
+    ],
+    "ans": 0
+  },
+  {
+    "lec": "PCA/KNN/Models",
+    "n": 10,
+    "q": "What is the key role of the \"number of neighbors (k)\" parameter in the KNN Imputer algorithm?",
+    "opts": [
+      "Controls how many neighboring samples are considered to estimate a missing value.",
+      "Defines the scaling factor applied to the features before imputation.",
+      "Determines the number of features used for imputation.",
+      "Specifies the maximum distance allowed for neighbors to be included."
+    ],
+    "ans": 0
+  },
+  {
+    "lec": "Clustering",
+    "n": 11,
+    "q": "What is the main characteristic of fuzzy clustering?",
+    "opts": [
+      "Each data point can belong to multiple clusters with varying degrees of membership",
+      "Each data point belongs to one and only one cluster",
+      "Clusters are formed based on hierarchical structure",
+      "Clusters are determined by density estimation"
+    ],
+    "ans": 0
+  },
+  {
+    "lec": "PCA/KNN/Models",
+    "n": 12,
+    "q": "What is the primary purpose of applying PCA to a dataset?",
+    "opts": [
+      "To transform the dataset into fewer dimensions while retaining maximum variance.",
+      "To project the dataset onto a new orthogonal basis that minimizes redundancy.",
+      "To normalize the dataset to ensure equal scaling of features.",
+      "To reduce the number of features while discarding insignificant data patterns."
+    ],
+    "ans": 0
+  },
+  {
+    "lec": "Clustering",
+    "n": 13,
+    "q": "Which of the following is a type of partitional clustering?",
+    "opts": [
+      "DBSCAN",
+      "Spectral Clustering",
+      "K-means",
+      "Agglomerative"
+    ],
+    "ans": 2
+  },
+  {
+    "lec": "Clustering",
+    "n": 14,
+    "q": "What is a key characteristic of hierarchical clustering?",
+    "opts": [
+      "It cannot handle noise in the data",
+      "It requires the number of clusters to be specified",
+      "It uses centroids to form clusters",
+      "It can be visualized using a dendrogram"
+    ],
+    "ans": 3
+  },
+  {
+    "lec": "PCA/KNN/Models",
+    "n": 15,
+    "q": "What is the suitable machine learning model for sequential data?",
+    "opts": [
+      "All of them",
+      "Graph Neural Networks",
+      "Recurrent Neural Network",
+      "Convolutional Neural Network"
+    ],
+    "ans": 2
+  },
+  {
+    "lec": "PCA/KNN/Models",
+    "n": 16,
+    "q": "Suppose a dataset has three samples with a missing value in a column. The Euclidean distances to three nearest neighbors for one missing value are 2, 3, and 4. The corresponding values of the neighbors in the column are 10, 15, and 20. Using standard KNN imputation, what is the value?",
+    "opts": [
+      "12.5",
+      "13.33",
+      "15",
+      "16"
+    ],
+    "ans": 2
+  },
+  {
+    "lec": "PCA/KNN/Models",
+    "n": 17,
+    "q": "When is dimensionality reduction applied during data preprocessing in deep learning?",
+    "opts": [
+      "To remove features with low variance.",
+      "To increase the number of features.",
+      "To transform categorical data into numerical data.",
+      "To reduce the number of features while preserving relevant information."
+    ],
+    "ans": 3
+  },
+  {
+    "lec": "Clustering",
+    "n": 18,
+    "q": "What is the stopping criterion for the K-Means algorithm?",
+    "opts": [
+      "When the cost function is maximized",
+      "Both A and C",
+      "When the centroids no longer change significantly",
+      "When the cost function is minimized"
+    ],
+    "ans": 2,
+    "note": "⚠️ <strong>السؤال ده هو المتوقع إنه الغلط في الكويز</strong> (الدرجة <bdi>4.8/5</bdi>) — الإجابة الصح المفروض تكون <bdi>Both A and C</bdi>. الإجابة المخزّنة هنا زي ما هي في ملف الحل (<bdi>C</bdi>) مع تنبيه للعلم."
+  },
+  {
+    "lec": "Preprocessing",
+    "n": 19,
+    "q": "What are some examples of data quality problems:",
+    "opts": [
+      "Missing values",
+      "All of them",
+      "Noise and outliers",
+      "Duplicate data"
+    ],
+    "ans": 1
+  },
+  {
+    "lec": "PCA/KNN/Models",
+    "n": 20,
+    "q": "Which step is essential before applying PCA to a dataset?",
+    "opts": [
+      "Filling missing values with zeros.",
+      "Normalizing or standardizing the dataset.",
+      "Removing all rows with NaN values.",
+      "Applying one-hot encoding to all categorical variables."
+    ],
+    "ans": 1
+  },
+  {
+    "lec": "PCA/KNN/Models",
+    "n": 21,
+    "q": "Which type of machine learning model is used for predicting continuous outcomes?",
+    "opts": [
+      "Reinforcement learning model",
+      "Classification model",
+      "Regression model",
+      "Clustering model"
+    ],
+    "ans": 2
+  },
+  {
+    "lec": "PCA/KNN/Models",
+    "n": 22,
+    "q": "What will happen if you attempt to use KNN Imputer on a DataFrame containing non-numeric data?",
+    "opts": [
+      "It will convert non-numeric data to NaN and proceed with imputation.",
+      "It will impute numeric columns and skip non-numeric ones.",
+      "It will silently drop non-numeric columns.",
+      "It will raise a ValueError because the imputer cannot handle non-numeric data."
+    ],
+    "ans": 3
+  },
+  {
+    "lec": "Preprocessing",
+    "n": 23,
+    "q": "In data preprocessing, what is the term for the process of converting text data into numerical format?",
+    "opts": [
+      "Data Aggregation",
+      "Data Imputation",
+      "Data Encoding",
+      "Data Normalization"
+    ],
+    "ans": 2
+  },
+  {
+    "lec": "Clustering",
+    "n": 24,
+    "q": "Given centroids (2.5, 3.5) and (6, 8), calculate the distance between the point (3, 4) and the centroid (6, 8).",
+    "opts": [
+      "5",
+      "2.5",
+      "3.5",
+      "4.24"
+    ],
+    "ans": 0
+  },
+  {
+    "lec": "Preprocessing",
+    "n": 25,
+    "q": "Which of the following is true about outliers?",
+    "opts": [
+      "Both of them",
+      "None",
+      "Data points that deviate a lot from normal observations",
+      "Can reduce the accuracy of the model"
+    ],
+    "ans": 0
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 1,
+    "q": "Which of the following is true about outliers -",
+    "opts": [
+      "Data points that deviate a lot from normal observations",
+      "Can reduce the accuracy of the model",
+      "None",
+      "Both of them"
+    ],
+    "ans": 3,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 2,
+    "q": "What is the suitable machine learning model for sequential data?",
+    "opts": [
+      "Recurrent Neural Network",
+      "All of them",
+      "Convolutional Neural Network",
+      "Graph Neural Networks"
+    ],
+    "ans": 0,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 3,
+    "q": "Why is it essential to check for and handle imbalanced classes in classification tasks during data preprocessing?",
+    "opts": [
+      "It simplifies the model architecture.",
+      "It improves model training speed.",
+      "It prevents the model from being biased toward the majority class.",
+      "It ensures that all classes have an equal number of samples."
+    ],
+    "ans": 2,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 4,
+    "q": "What is the key role of the \"number of neighbors (k)\" parameter in the KNN Imputer algorithm?",
+    "opts": [
+      "Specifies the maximum distance allowed for neighbors to be included.",
+      "Determines the number of features used for imputation.",
+      "Controls how many neighboring samples are considered to estimate a missing value.",
+      "Defines the scaling factor applied to the features before imputation."
+    ],
+    "ans": 2,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 5,
+    "q": "What is the primary purpose of applying PCA to a dataset?",
+    "opts": [
+      "To project the dataset onto a new orthogonal basis that minimizes redundancy.",
+      "To normalize the dataset to ensure equal scaling of features.",
+      "To transform the dataset into fewer dimensions while retaining maximum variance."
+    ],
+    "ans": 2,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 6,
+    "q": "What is the main goal of clustering algorithms?",
+    "opts": [
+      "To fit a model to the data",
+      "To find the best linear separation between data points",
+      "To reduce the dimensionality of data",
+      "To partition data into distinct groups or clusters based on similarity"
+    ],
+    "ans": 3,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 7,
+    "q": "Which of the following is a type of partitional clustering?",
+    "opts": [
+      "Spectral Clustering",
+      "DBSCAN",
+      "K-means",
+      "Agglomerative"
+    ],
+    "ans": 2,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 8,
+    "q": "What is the main criterion for assigning data points to clusters in K-Means?",
+    "opts": [
+      "Assign each data point randomly",
+      "Assign each data point to the average centroid",
+      "Assign each data point to the nearest centroid",
+      "Assign each data point to the farthest centroid"
+    ],
+    "ans": 2,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 9,
+    "q": "How are the centroids updated in the K-Means algorithm?",
+    "opts": [
+      "By calculating the mode of all data points assigned to each centroid",
+      "By calculating the median of all data points assigned to each centroid",
+      "By calculating the mean of all data points assigned to each centroid",
+      "By calculating the sum of all data points assigned to each centroid"
+    ],
+    "ans": 2,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 10,
+    "q": "What is the primary goal of feature engineering in machine learning?",
+    "opts": [
+      "Increasing data complexity",
+      "Reducing the dimensionality of data",
+      "Enhancing model training time",
+      "Preprocessing raw data"
+    ],
+    "ans": 1,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 11,
+    "q": "In fuzzy clustering, what does the membership value represent?",
+    "opts": [
+      "The number of data points in a cluster",
+      "The distance from the cluster center",
+      "The degree of belonging to a cluster",
+      "The probability of a data point belonging to a cluster"
+    ],
+    "ans": 2,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 12,
+    "q": "Which algorithm is commonly used for unsupervised tasks in machine learning, known for its simplicity and interpretability?",
+    "opts": [
+      "Support Vector Machine (SVM)",
+      "K-Means Clustering",
+      "Principal Component Analysis (PCA)",
+      "Decision Tree"
+    ],
+    "ans": 1,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 13,
+    "q": "What is the mathematical transformation performed during PCA to reduce dimensionality?",
+    "opts": [
+      "Projecting the data onto a new basis defined by the eigenvectors of the covariance matrix.",
+      "Multiplying the original data by the covariance matrix.",
+      "Rotating the data points such that they align with the original axes.",
+      "Scaling each feature to have zero mean and unit variance."
+    ],
+    "ans": 0,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 14,
+    "q": "Which one is a feature selection example?",
+    "opts": [
+      "Imputation of missing values",
+      "Constructing a bag of words model",
+      "All of them",
+      "Principal component analysis"
+    ],
+    "ans": 3,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 15,
+    "q": "Given a dataset with three points (2, 3), (3, 4), and (6, 8) and K=2, what is the first step in K- means clustering?",
+    "opts": [
+      "Randomly initialize two centroids",
+      "Compute the distance between all points",
+      "Assign each point to the nearest cluster",
+      "Compute the mean value for centroids"
+    ],
+    "ans": 0,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 16,
+    "q": "If the initial centroids are (2, 3) and (6, 8), to which cluster will the point (3, 4) be assigned in the first iteration?",
+    "opts": [
+      "Cluster with centroid (6, 8)",
+      "Both clusters",
+      "None of the clusters",
+      "Cluster with centroid (2, 3)"
+    ],
+    "ans": 3,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 17,
+    "q": "What is a key characteristic of hierarchical clustering?",
+    "opts": [
+      "It cannot handle noise in the data",
+      "It can be visualized using a dendrogram",
+      "It uses centroids to form clusters",
+      "It requires the number of clusters to be specified"
+    ],
+    "ans": 1,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 18,
+    "q": "In data preprocessing, what is the term for the process of converting text data into numerical format?",
+    "opts": [
+      "Data Imputation",
+      "Data Aggregation",
+      "Data Normalization",
+      "Data Encoding"
+    ],
+    "ans": 3,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 19,
+    "q": "What is the purpose of data normalization?",
+    "opts": [
+      "To reduce the number of features",
+      "To remove outliers",
+      "To increase the number of features",
+      "To scale the data to a fixed range, usually 0 to 1"
+    ],
+    "ans": 3,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 20,
+    "q": "What are some examples of data quality problems:",
+    "opts": [
+      "All of them",
+      "Noise and outliers",
+      "Missing values",
+      "Duplicate data"
+    ],
+    "ans": 0,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 21,
+    "q": "What is the term for the process of handling missing data in a dataset by estimating values based on available data?",
+    "opts": [
+      "Data Imputation",
+      "Data Normalization",
+      "Data Transformation",
+      "Data Encoding"
+    ],
+    "ans": 0,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 22,
+    "q": "Which type of machine learning model is used for predicting continuous outcomes?",
+    "opts": [
+      "Regression model",
+      "Clustering model",
+      "Classification model"
+    ],
+    "ans": 0,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 23,
+    "q": "Which of the following techniques can help identify and handle outliers in your data?",
+    "opts": [
+      "Data standardization",
+      "Distance based methods",
+      "None of them",
+      "All of them"
+    ],
+    "ans": 1,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 24,
+    "q": "Which of the following is NOT mentioned as a benefit of data preprocessing?",
+    "opts": [
+      "Handling imbalanced data",
+      "Improving the robustness of the model",
+      "Enhancing the accuracy of models",
+      "Increasing the complexity of the data"
+    ],
+    "ans": 3,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 25,
+    "q": "What is the primary goal of feature engineering in machine learning?",
+    "opts": [
+      "Enhancing model training time",
+      "Preprocessing raw data",
+      "Reducing the dimensionality of data",
+      "Increasing data complexity"
+    ],
+    "ans": 2,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 26,
+    "q": "Which algorithm is commonly used for unsupervised tasks in machine learning, known for its simplicity and interpretability?",
+    "opts": [
+      "Decision Tree",
+      "Principal Component Analysis (PCA)",
+      "K-Means Clustering",
+      "Support Vector Machine (SVM)"
+    ],
+    "ans": 2,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 27,
+    "q": "Why is it essential to check for and handle imbalanced classes in classification tasks during data preprocessing?",
+    "opts": [
+      "It simplifies the model architecture.",
+      "It improves model training speed.",
+      "It prevents the model from being biased toward the majority class.",
+      "It ensures that all classes have an equal number of samples."
+    ],
+    "ans": 2,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 28,
+    "q": "When is dimensionality reduction applied during data preprocessing in deep learning?",
+    "opts": [
+      "To transform categorical data into numerical data.",
+      "To reduce the number of features while preserving relevant information.",
+      "To remove features with low variance.",
+      "To increase the number of features."
+    ],
+    "ans": 1,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 29,
+    "q": "Which of the following is NOT a common data preprocessing technique?",
+    "opts": [
+      "Data Encoding",
+      "Data Normalization",
+      "Data Aggregation",
+      "Data Imputation"
+    ],
+    "ans": 2,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 30,
+    "q": "What are the basic steps in an ML workflow (or process)?",
+    "opts": [
+      "Perform statistical analysis and initial visualization",
+      "Check for anomalies, missing data and clean the data",
+      "All options are correct.",
+      "Collect data"
+    ],
+    "ans": 2,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 31,
+    "q": "Which one of the following is the best feature set for your analysis?",
+    "opts": [
+      "Feature set with the most significant set of features",
+      "Feature set that contains exclusively re-coded features",
+      "Feature set with the smallest number of features",
+      "Feature set with the largest number of features"
+    ],
+    "ans": 0,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 32,
+    "q": "Each object belongs to exactly one cluster, in which technique?",
+    "opts": [
+      "Fuzzy",
+      "Hierarchical",
+      "K-means",
+      "All of them"
+    ],
+    "ans": 2,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 33,
+    "q": "What is the primary objective of summarizing data during data preprocessing?",
+    "opts": [
+      "To visualize data for better understanding.",
+      "To finalize the model architecture.",
+      "To increase the model's complexity.",
+      "To shuffle the data randomly."
+    ],
+    "ans": 0,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 34,
+    "q": "What are the features of low data quality?",
+    "opts": [
+      "Incomplete data",
+      "Unreliable info",
+      "All of them",
+      "Duplicated data"
+    ],
+    "ans": 2,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 35,
+    "q": "What are some examples of data quality problems:",
+    "opts": [
+      "Noise and outliers",
+      "Duplicate data",
+      "Missing values",
+      "All of them"
+    ],
+    "ans": 3,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 36,
+    "q": "What is the purpose of feature selection in data preprocessing?",
+    "opts": [
+      "To make data more complex",
+      "To extract meaningful features",
+      "To perform data cleaning",
+      "To visualize data"
+    ],
+    "ans": 1,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 37,
+    "q": "What is the term for the process of handling missing data in a dataset by estimating values based on available data?",
+    "opts": [
+      "Data Imputation",
+      "Data Encoding",
+      "Data Normalization",
+      "Data Transformation"
+    ],
+    "ans": 0,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 38,
+    "q": "In data preprocessing, what is the term for the process of converting text data into numerical format?",
+    "opts": [
+      "Data Normalization",
+      "Data Imputation",
+      "Data Encoding",
+      "Data Aggregation"
+    ],
+    "ans": 2,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 39,
+    "q": "A data sample with values that are considerably different than the rest of the other data samples in the dataset is called an/a_____________.",
+    "opts": [
+      "Outlier",
+      "Invalid data",
+      "Noise",
+      "Inconsistent data"
+    ],
+    "ans": 0,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 40,
+    "q": "What is the primary purpose of feature scaling in deep learning?",
+    "opts": [
+      "To remove noise from the data.",
+      "To change the feature names.",
+      "To decrease the model's complexity.",
+      "To ensure all features have the same scale."
+    ],
+    "ans": 3,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 41,
+    "q": "Which of the following is true about outliers -",
+    "opts": [
+      "Data points that deviate a lot from normal observations",
+      "Can reduce the accuracy of the model",
+      "Both of them",
+      "None"
+    ],
+    "ans": 2,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 42,
+    "q": "What does \"K\" represent in K-Nearest Neighbors?",
+    "opts": [
+      "K-Means",
+      "Klass",
+      "Number of Neighbors",
+      "Kernel"
+    ],
+    "ans": 2,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 43,
+    "q": "Which of the following(s) is/are features scaling techniques?",
+    "opts": [
+      "Standardization",
+      "All of them",
+      "Min-Max Scaling",
+      "Normalization"
+    ],
+    "ans": 1,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 44,
+    "q": "How can K-means clustering be used for outlier detection?",
+    "opts": [
+      "By identifying data points that are far from their cluster centroids",
+      "By identifying clusters with few data points",
+      "By identifying data points with a high between-cluster variance",
+      "By identifying data points that have a high silhouette score"
+    ],
+    "ans": 0,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 45,
+    "q": "What is K-means primarily used for?",
+    "opts": [
+      "Dimensionality Reduction",
+      "Classification",
+      "Regression",
+      "Clustering"
+    ],
+    "ans": 3,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 46,
+    "q": "Which one is a feature selection example?",
+    "opts": [
+      "Constructing a bag of words model",
+      "Imputation of missing values",
+      "All of them",
+      "Principal component analysis"
+    ],
+    "ans": 3,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 47,
+    "q": "What are the objectives of exploratory data analysis?",
+    "opts": [
+      "Uncover a parsimonious model, one which explains the data with a minimum number of predictor variables.",
+      "Check for missing data and other mistakes.",
+      "Gain maximum insight into the data set and its underlying structure",
+      "All of the above"
+    ],
+    "ans": 3,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 48,
+    "q": "The correct way of preprocessing the data should be-",
+    "opts": [
+      "Imputation ->feature scaling-> training",
+      "Feature scaling->imputation->training",
+      "Feature scaling->label encoding->training",
+      "None"
+    ],
+    "ans": 0,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 49,
+    "q": "Which of the following methods can be used for handling missing data during data preprocessing?",
+    "opts": [
+      "Ignoring missing values during training.",
+      "Replacing missing values with zeros.",
+      "All of them",
+      "Make imputation with mean or median"
+    ],
+    "ans": 2,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 50,
+    "q": "In K-means clustering, how are initial centroids typically selected?",
+    "opts": [
+      "Randomly from the data points",
+      "Both of them",
+      "None of them",
+      "By employing a separate clustering algorithm"
+    ],
+    "ans": 0,
+    "ai": true
+  },
+  {
+    "lec": "أسئلة AI",
+    "n": 51,
+    "q": "Which is the best way to assess the performance of a model?",
+    "opts": [
+      "Observing how well a model performs against a new dataset that it hasn't seen before and observing how well a model performs against an existing known dataset.",
+      "Observing how well a model performs against an existing known dataset.",
+      "None of the options are correct.",
+      "Observing how well a model performs against a new dataset that it hasn't seen before"
+    ],
+    "ans": 0,
+    "ai": true
+  }
+];
+
+// ══════════════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════════════
+let quizMode      = 'inorder';
+const setModes    = { quiz: 'inorder', ai: 'inorder' };   // mode chosen in each home card
+let currentSet    = 'quiz';   // which card started the running quiz
+let lastSet       = 'quiz';   // for «Try Again»
+
+// 'all' → the 25 guide questions | 'AI' → the 51 AI questions | L1/L2/L3 → that topic
+function groupQuestions(val) {
+  const lecMap = { 'L1': 'Preprocessing', 'L2': 'Clustering', 'L3': 'PCA/KNN/Models' };
+  if (val === 'AI')  return QUESTIONS.filter(q => q.ai);
+  if (val === 'all') return QUESTIONS.filter(q => !q.ai);
+  return QUESTIONS.filter(q => q.lec === lecMap[val]);
+}
+
+function inSet(idx, set) {
+  return set === 'ai' ? !!QUESTIONS[idx].ai : !QUESTIONS[idx].ai;
+}
+
+let quizQuestions = [];
+let currentIdx    = 0; // Keeping for compatibility, unused in sheet
+let score = 0, wrongCount = 0, skipped = 0;
+let userAnswers   = [];
+let answered      = false;
+
+// New States
+let flaggedQuestions = []; // Array of original indices
+let allTimeWrong      = new Set(); // Set of original indices
+
+// ══════════════════════════════════════════════════════
+//  HELPERS & INITIALIZATION
+// ══════════════════════════════════════════════════════
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+  
+  // If leaving the quiz/qbank screen, reset standard header
+  if (id !== 'qbankScreen' && id !== 'quizScreen') {
+    setHeaderDefault();
+  } else if (id === 'qbankScreen') {
+    setHeaderDefault();
+  }
+
+  // Explicitly update homeBtn visibility
+  const homeBtn = document.getElementById('homeBtn');
+  if (homeBtn) {
+    homeBtn.style.display = (id === 'homeScreen') ? 'none' : 'flex';
+  }
+}
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+}
+
+function pickMode(m, set) {
+  set = set || 'quiz';
+  setModes[set] = m;
+  quizMode = m;
+  const a = document.getElementById('modeInOrder_' + set);
+  const b = document.getElementById('modeRandom_' + set);
+  if (a) a.classList.toggle('sel', m === 'inorder');
+  if (b) b.classList.toggle('sel', m === 'random');
+}
+
+// ══════════════════════════════════════════════════════
+//  LOCAL STORAGE & RESUME GAME
+// ══════════════════════════════════════════════════════
+function initLocalStorage() {
+  // Load Flagged Questions
+  const savedFlagged = localStorage.getItem('mlq_flagged_questions');
+  if (savedFlagged) {
+    try { flaggedQuestions = JSON.parse(savedFlagged); } catch (e) { flaggedQuestions = []; }
+  }
+
+  // Load All-Time Wrong Questions
+  const savedWrong = localStorage.getItem('mlq_wrong_questions');
+  if (savedWrong) {
+    try { allTimeWrong = new Set(JSON.parse(savedWrong)); } catch (e) { allTimeWrong = new Set(); }
+  }
+
+  // Load Dark Mode Preference
+  const darkMode = localStorage.getItem('mlq_dark_mode');
+  if (darkMode === 'true') {
+    document.body.classList.add('dark-mode');
+    const toggleBtn = document.getElementById('themeToggleBtn');
+    if (toggleBtn) toggleBtn.textContent = '☀️';
+  }
+
+  // Check Quiz Progress
+  checkQuizProgress();
+  updateHomeLabels();
+}
+
+function updateHomeLabels() {
+  ['quiz', 'ai'].forEach(function (set) {
+    const isAI = set === 'ai';
+    const wrongLabel = document.getElementById('wrongCount_' + set);
+    if (wrongLabel) {
+      const n = Array.from(allTimeWrong).filter(idx => !!QUESTIONS[idx] && !!QUESTIONS[idx].ai === isAI).length;
+      wrongLabel.textContent = `أخطائك السابقة (${n} أسئلة)`;
+    }
+    const flaggedLabel = document.getElementById('flaggedCount_' + set);
+    if (flaggedLabel) {
+      const n = flaggedQuestions.filter(idx => !!QUESTIONS[idx] && !!QUESTIONS[idx].ai === isAI).length;
+      flaggedLabel.textContent = `الأسئلة المميزة (${n} أسئلة)`;
+    }
+  });
+
+  // Update high score in stats row
+  const highScore = localStorage.getItem('mlq_high_score');
+  const scorePill = document.querySelectorAll('.stat-pill')[3];
+  if (scorePill && highScore) {
+    scorePill.querySelector('.sn').textContent = highScore + '%';
+    scorePill.querySelector('.sl').textContent = 'High Score';
+  }
+}
+
+function saveFlaggedToLocalStorage() {
+  localStorage.setItem('mlq_flagged_questions', JSON.stringify(flaggedQuestions));
+  updateHomeLabels();
+}
+
+function saveWrongToLocalStorage() {
+  localStorage.setItem('mlq_wrong_questions', JSON.stringify(Array.from(allTimeWrong)));
+  updateHomeLabels();
+}
+
+function toggleDarkMode() {
+  const isDark = document.body.classList.toggle('dark-mode');
+  localStorage.setItem('mlq_dark_mode', isDark ? 'true' : 'false');
+  document.getElementById('themeToggleBtn').textContent = isDark ? '☀️' : '🌙';
+}
+
+function saveProgress() {
+  if (quizQuestions.length > 0) {
+    const progress = {
+      quizMode: quizMode,
+      currentIdx: 0,
+      score: score,
+      wrongCount: wrongCount,
+      skipped: skipped,
+      userAnswers: userAnswers,
+      quizQuestions: quizQuestions
+    };
+    localStorage.setItem('mlq_quiz_progress', JSON.stringify(progress));
+  }
+}
+
+function checkQuizProgress() {
+  const saved = localStorage.getItem('mlq_quiz_progress');
+  const resumeBox = document.getElementById('resumeBox');
+  if (saved) {
+    try {
+      const progress = JSON.parse(saved);
+      if (progress && progress.quizQuestions && progress.quizQuestions.length > 0) {
+        document.getElementById('resumeDetails').textContent = `وصلت لـ ${progress.userAnswers.filter(a => a !== null).length} سؤال محلول من أصل ${progress.quizQuestions.length}`;
+        resumeBox.style.display = 'block';
+        return;
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+  if (resumeBox) resumeBox.style.display = 'none';
+}
+
+function resumeQuiz() {
+  const saved = localStorage.getItem('mlq_quiz_progress');
+  if (!saved) return;
+  try {
+    const progress = JSON.parse(saved);
+    quizMode = progress.quizMode;
+    quizQuestions = progress.quizQuestions;
+    currentIdx = 0;
+    score = progress.score;
+    wrongCount = progress.wrongCount;
+    skipped = progress.skipped;
+    userAnswers = progress.userAnswers;
+
+    setHeaderQuiz(quizQuestions.length);
+    showScreen('quizScreen');
+    renderQuizSheet();
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+function clearSavedProgress() {
+  if (confirm('هل أنت متأكد من رغبتك في حذف التقدم السابق وبدء اختبار جديد؟')) {
+    localStorage.removeItem('mlq_quiz_progress');
+    checkQuizProgress();
+  }
+}
+
+// ══════════════════════════════════════════════════════
+//  HEADER
+// ══════════════════════════════════════════════════════
+function setHeaderDefault() {
+  const mainHeader = document.getElementById('mainHeader');
+  const isHomeActive = document.getElementById('homeScreen') ? document.getElementById('homeScreen').classList.contains('active') : true;
+  const homeDisplay = isHomeActive ? 'none' : 'flex';
+
+  mainHeader.innerHTML = `
+    <h1>🤖 ML &amp; Data Preprocessing</h1>
+    <p class="hdr-sub">Machine Learning &amp; Data Preprocessing &bull; <bdi>25</bdi> MCQ + <bdi>51</bdi> سؤال AI</p>
+    <button id="homeBtn" onclick="goHome()" style="display: ${homeDisplay}; position: absolute; top: clamp(12px, 3.5vw, 18px); left: clamp(12px, 3.5vw, 18px); background: rgba(255,255,255,0.18); border: none; border-radius: 50%; width: 38px; height: 38px; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; transition: all 0.2s; z-index: 101;" title="العودة للرئيسية">🏠</button>
+    <button id="themeToggleBtn" onclick="toggleDarkMode()" style="position: absolute; top: clamp(12px, 3.5vw, 18px); right: clamp(12px, 3.5vw, 18px); background: rgba(255,255,255,0.18); border: none; border-radius: 50%; width: 38px; height: 38px; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; transition: all 0.2s; z-index: 101;" title="تبديل الوضع الداكن">${document.body.classList.contains('dark-mode') ? '☀️' : '🌙'}</button>
+  `;
+}
+
+function setHeaderQuiz(total) {
+  const mainHeader = document.getElementById('mainHeader');
+  mainHeader.innerHTML = `
+    <h1>🤖 ML &amp; Data Preprocessing</h1>
+    <p class="hdr-sub">Machine Learning &amp; Data Preprocessing &bull; <bdi>25</bdi> MCQ + <bdi>51</bdi> سؤال AI</p>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="pbFill" style="width:0%"></div></div>
+    <div class="progress-text" id="pbText">Question 1 of ${total}</div>
+    <button id="homeBtn" onclick="goHome()" style="display: flex; position: absolute; top: clamp(12px, 3.5vw, 18px); left: clamp(12px, 3.5vw, 18px); background: rgba(255,255,255,0.18); border: none; border-radius: 50%; width: 38px; height: 38px; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; transition: all 0.2s; z-index: 101;" title="العودة للرئيسية">🏠</button>
+    <button id="themeToggleBtn" onclick="toggleDarkMode()" style="position: absolute; top: clamp(12px, 3.5vw, 18px); right: clamp(12px, 3.5vw, 18px); background: rgba(255,255,255,0.18); border: none; border-radius: 50%; width: 38px; height: 38px; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.15rem; transition: all 0.2s; z-index: 101;" title="تبديل الوضع الداكن">${document.body.classList.contains('dark-mode') ? '☀️' : '🌙'}</button>
+  `;
+}
+
+function updateProgress() {
+  const pct = Math.round((userAnswers.filter(a => a !== null).length / quizQuestions.length) * 100);
+  const f = document.getElementById('pbFill');
+  const t = document.getElementById('pbText');
+  if (f) f.style.width = pct + '%';
+  if (t) t.textContent = `حليت ${userAnswers.filter(a => a !== null).length} سؤال من أصل ${quizQuestions.length}`;
+}
+
+// ══════════════════════════════════════════════════════
+//  START QUIZ
+// ══════════════════════════════════════════════════════
+function startQuiz(set) {
+  set = set || 'quiz';
+  currentSet = set; lastSet = set;
+  quizMode = setModes[set] || 'inorder';
+
+  const sel = document.getElementById('sel_' + set);
+  const lecVal = sel ? sel.value : (set === 'ai' ? 'AI' : 'all');
+
+  // 1. Filter the questions of this card
+  let baseQuestions = groupQuestions(lecVal);
+
+  // 2. Map questions with original indexes to retain flagged/wrong status mappings correctly!
+  quizQuestions = baseQuestions.map(q => {
+    const originalIdx = QUESTIONS.indexOf(q);
+    return {
+      originalIdx: originalIdx,
+      lec:  q.lec,
+      q:    q.q,
+      opts: [...q.opts],
+      ans:  q.ans,
+      note: q.note,
+      ai:   q.ai || false,
+      n:    q.n
+    };
+  });
+
+  if (quizMode === 'random') {
+    // Shuffle question order
+    shuffle(quizQuestions);
+    // Shuffle options within each question
+    quizQuestions.forEach(q => {
+      const correctText = q.opts[q.ans];
+      shuffle(q.opts);
+      q.ans = q.opts.indexOf(correctText);
+    });
+  }
+
+  currentIdx = 0; score = 0; wrongCount = 0; skipped = 0;
+  userAnswers = new Array(quizQuestions.length).fill(null);
+
+  setHeaderQuiz(quizQuestions.length);
+  const bn = document.getElementById('quizBanner');
+  if (bn) {
+    const aiOnly = currentSet === 'ai' || (quizQuestions.length > 0 && quizQuestions.every(q => q.ai));
+    bn.innerHTML = aiOnly
+      ? `🤖 امتحان أسئلة الـ AI — ${quizQuestions.length} سؤال مُولّد بالـ AI`
+      : `📘 كويز الملف  — ${quizQuestions.length} سؤال`;
+    bn.style.background = aiOnly
+      ? 'linear-gradient(135deg,#7c3aed,#a855f7)'
+      : 'linear-gradient(135deg,#4338ca,#818cf8)';
+  }
+  showScreen('quizScreen');
+  renderQuizSheet();
+  saveProgress();
+}
+
+// ══════════════════════════════════════════════════════
+//  START SPECIAL MODES (Wrong / Flagged / Not Longest Only)
+// ══════════════════════════════════════════════════════
+function startSpecialMode(type, set) {
+  set = set || 'quiz';
+  currentSet = set; lastSet = set;
+  quizMode = setModes[set] || 'inorder';
+  let indices = [];
+  if (type === 'wrong') {
+    indices = Array.from(allTimeWrong).filter(idx => inSet(idx, set));
+    if (indices.length === 0) {
+      alert('لا توجد أخطاء مسجلة بعد! العب الاختبار العادي وأخطئ في بعض الأسئلة أولاً.');
+      return;
+    }
+  } else if (type === 'flagged') {
+    indices = flaggedQuestions.filter(idx => inSet(idx, set));
+    if (indices.length === 0) {
+      alert('لا توجد أسئلة مميزة بالنجمة بعد! حدد بعض الأسئلة أثناء الاختبار أولاً.');
+      return;
+    }
+  } else if (type === 'not_longest') {
+    QUESTIONS.forEach((q, idx) => {
+      if (!inSet(idx, set)) return;
+      const lengths = q.opts.map(o => o.length);
+      const maxLen = Math.max(...lengths);
+      const correctLen = q.opts[q.ans].length;
+      if (correctLen < maxLen) {
+        indices.push(idx);
+      }
+    });
+  }
+
+  // Map the indices back to questions
+  quizQuestions = indices.map(idx => {
+    const q = QUESTIONS[idx];
+    return {
+      originalIdx: idx,
+      lec:  q.lec,
+      q:    q.q,
+      opts: [...q.opts],
+      ans:  q.ans,
+      note: q.note,
+      ai:   q.ai || false,
+      n:    q.n
+    };
+  });
+
+  currentIdx = 0; score = 0; wrongCount = 0; skipped = 0;
+  userAnswers = new Array(quizQuestions.length).fill(null);
+
+  setHeaderQuiz(quizQuestions.length);
+  const bn = document.getElementById('quizBanner');
+  if (bn) {
+    const aiOnly = currentSet === 'ai' || (quizQuestions.length > 0 && quizQuestions.every(q => q.ai));
+    bn.innerHTML = aiOnly
+      ? `🤖 امتحان أسئلة الـ AI — ${quizQuestions.length} سؤال مُولّد بالـ AI`
+      : `📘 كويز الملف الأصلي — ${quizQuestions.length} سؤال`;
+    bn.style.background = aiOnly
+      ? 'linear-gradient(135deg,#7c3aed,#a855f7)'
+      : 'linear-gradient(135deg,#4338ca,#818cf8)';
+  }
+  showScreen('quizScreen');
+  renderQuizSheet();
+}
+
+// ══════════════════════════════════════════════════════
+//  RENDER QUIZ SHEET (جميع الأسئلة مفتوحة وقابلة للرجوع والتمرير)
+// ══════════════════════════════════════════════════════
+function renderQuizSheet() {
+  const container = document.getElementById('quizQuestionsContainer');
+  container.innerHTML = '';
+  const LABELS = ['A','B','C','D','E'];
+
+  quizQuestions.forEach((q, qIdx) => {
+    const chosen = userAnswers[qIdx];
+    const isAnswered = chosen !== null;
+    const isCorrect = isAnswered && chosen === q.ans;
+    const isFlagged = flaggedQuestions.includes(q.originalIdx);
+
+    // Generate options HTML
+    let optsHtml = '';
+    q.opts.forEach((opt, oIdx) => {
+      let btnClass = 'opt-btn';
+      let isDisabled = isAnswered ? 'disabled' : '';
+      
+      if (isAnswered) {
+        if (oIdx === q.ans) {
+          btnClass += ' correct';
+        } else if (oIdx === chosen && !isCorrect) {
+          btnClass += ' wrong';
+        }
+      }
+
+      optsHtml += `
+        <button class="${btnClass}" ${isDisabled} onclick="answerQuestionSheet(${qIdx}, ${oIdx}, this)" style="margin-top: 6px; width: 100%;">
+          <span class="ol">${LABELS[oIdx]}</span><span>${opt}</span>
+        </button>
+      `;
+    });
+
+    // Generate feedback box if answered
+    let fbHtml = '';
+    if (isAnswered) {
+      if (isCorrect) {
+        fbHtml = `<div class="fb-box correct show" style="display: flex;">✅ Correct! Well done!</div>`;
+      } else {
+        fbHtml = `<div class="fb-box wrong show" style="display: flex;">❌ Wrong! Correct answer: <strong>${q.opts[q.ans]}</strong></div>`;
+      }
+    } else {
+      fbHtml = `<div class="fb-box" id="fbBox_${qIdx}"></div>`;
+    }
+
+    const card = document.createElement('div');
+    card.className = 'q-card';
+    card.id = `qCard_${qIdx}`;
+    card.style.marginBottom = '16px';
+    
+    card.innerHTML = `
+      <div class="q-meta" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+        <div style="display: flex; gap: 6px; align-items: center;">
+          <span class="q-badge">سؤال ${qIdx + 1} / ${quizQuestions.length}</span>
+          <span class="q-lec-tag">${q.lec}</span>
+          ${q.ai ? '<span class="ai-chip">🤖 AI</span>' : ''}
+        </div>
+        <button id="flagBtn_${qIdx}" onclick="toggleFlagSheet(${qIdx}, this)" style="background: var(--bg); border: 1px solid var(--border); border-radius: 20px; font-size: 0.8rem; cursor: pointer; user-select: none; padding: 4px 10px; display: flex; align-items: center; gap: 4px; color: ${isFlagged ? '#f59e0b' : 'var(--muted)'}; font-weight: 700; border-color: ${isFlagged ? '#f59e0b' : 'var(--border)'}; transition: all 0.2s;">
+          <span>${isFlagged ? '★' : '☆'}</span> <span>${isFlagged ? 'محدد' : 'تحديد'}</span>
+        </button>
+      </div>
+      ${q.note ? `<div class="q-note">${q.note}</div>` : ''}
+      <div class="q-text" style="font-size: clamp(0.9rem, 3vw, 1rem); font-weight: 700; line-height: 1.6; margin-bottom: 15px; color: var(--text); text-align: left;">
+        ${q.q}
+      </div>
+      <div class="opts" id="opts_${qIdx}">
+        ${optsHtml}
+      </div>
+      ${fbHtml}
+    `;
+    container.appendChild(card);
+  });
+
+  updateSheetProgress();
+}
+
+// ══════════════════════════════════════════════════════
+//  ANSWER QUESTION SHEET
+// ══════════════════════════════════════════════════════
+function answerQuestionSheet(qIdx, chosen, btn) {
+  if (userAnswers[qIdx] !== null) return; // Already answered
+  userAnswers[qIdx] = chosen;
+
+  const q = quizQuestions[qIdx];
+  const isCorrect = chosen === q.ans;
+  
+  if (isCorrect) {
+    allTimeWrong.delete(q.originalIdx);
+  } else {
+    allTimeWrong.add(q.originalIdx);
+  }
+  saveWrongToLocalStorage();
+
+  // Highlight choices
+  const optsContainer = document.getElementById(`opts_${qIdx}`);
+  const buttons = optsContainer.querySelectorAll('button');
+  buttons.forEach((b, oIdx) => {
+    b.disabled = true;
+    if (oIdx === q.ans) {
+      b.classList.add('correct');
+    } else if (oIdx === chosen && !isCorrect) {
+      b.classList.add('wrong');
+    }
+  });
+
+  // Display feedback box
+  const fb = document.getElementById(`fbBox_${qIdx}`);
+  if (fb) {
+    if (isCorrect) {
+      fb.className = 'fb-box correct show';
+      fb.style.display = 'flex';
+      fb.innerHTML = '✅ Correct! Well done!';
+    } else {
+      fb.className = 'fb-box wrong show';
+      fb.style.display = 'flex';
+      fb.innerHTML = `❌ Wrong! Correct answer: <strong>${q.opts[q.ans]}</strong>`;
+    }
+  }
+
+  updateSheetProgress();
+  saveProgress();
+}
+
+// ══════════════════════════════════════════════════════
+//  UPDATE FLOATING SHEET PROGRESS
+// ══════════════════════════════════════════════════════
+function updateSheetProgress() {
+  const total = quizQuestions.length;
+  const answeredCount = userAnswers.filter(a => a !== null).length;
+  
+  const label = document.getElementById('quizFloatingProgress');
+  const bar = document.getElementById('quizFloatingBar');
+  
+  if (label) label.textContent = `تم حل ${answeredCount} من أصل ${total} سؤال`;
+  if (bar) {
+    const pct = Math.round((answeredCount / total) * 100);
+    bar.style.width = pct + '%';
+  }
+
+  // Update original top progress bar as well
+  updateProgress();
+}
+
+// ══════════════════════════════════════════════════════
+//  TOGGLE FLAG FROM THE EXAM SHEET
+// ══════════════════════════════════════════════════════
+function toggleFlagSheet(qIdx, btn) {
+  const q = quizQuestions[qIdx];
+  if (!q) return;
+  const origIdx = q.originalIdx;
+  const idxInFlags = flaggedQuestions.indexOf(origIdx);
+  if (idxInFlags > -1) {
+    flaggedQuestions.splice(idxInFlags, 1);
+    btn.querySelector('span:first-child').textContent = '☆';
+    btn.querySelector('span:last-child').textContent = 'تحديد';
+    btn.style.color = 'var(--muted)';
+    btn.style.borderColor = 'var(--border)';
+  } else {
+    flaggedQuestions.push(origIdx);
+    btn.querySelector('span:first-child').textContent = '★';
+    btn.querySelector('span:last-child').textContent = 'محدد';
+    btn.style.color = '#f59e0b';
+    btn.style.borderColor = '#f59e0b';
+  }
+  saveFlaggedToLocalStorage();
+}
+
+// ══════════════════════════════════════════════════════
+//  SUBMIT QUIZ
+// ══════════════════════════════════════════════════════
+function submitQuiz() {
+  const total = quizQuestions.length;
+  const answeredCount = userAnswers.filter(a => a !== null).length;
+  const remaining = total - answeredCount;
+
+  if (remaining > 0) {
+    const confirmMsg = `⚠️ لم تقم بالإجابة على جميع الأسئلة!\n\n• تم الإجابة: ${answeredCount}\n• المتبقي: ${remaining}\n\nهل تريد إنهاء الاختبار الآن وتسليم الورقة؟ (الأسئلة غير المحلولة ستعتبر تخطّي)`;
+    if (!confirm(confirmMsg)) return;
+  }
+
+  // Calculate final score
+  score = 0;
+  wrongCount = 0;
+  skipped = 0;
+
+  quizQuestions.forEach((q, qIdx) => {
+    const chosen = userAnswers[qIdx];
+    if (chosen === null) {
+      skipped++;
+    } else if (chosen === q.ans) {
+      score++;
+    } else {
+      wrongCount++;
+    }
+  });
+
+  showResult();
+}
+
+// ══════════════════════════════════════════════════════
+//  RESULT
+// ══════════════════════════════════════════════════════
+function showResult() {
+  // Clear saved progress since quiz finished!
+  localStorage.removeItem('mlq_quiz_progress');
+  checkQuizProgress();
+
+  const total = quizQuestions.length;
+  const pct   = Math.round((score / total) * 100);
+
+  // High Score Saving
+  const savedHighScore = localStorage.getItem('mlq_high_score') || 0;
+  if (pct > parseInt(savedHighScore)) {
+    localStorage.setItem('mlq_high_score', pct);
+  }
+  updateHomeLabels();
+
+  let emoji, title, sub, color;
+  if      (pct >= 90) { emoji='🏆'; title='Excellent!';      sub='You mastered the Machine Learning question bank!';          color='#22c55e'; }
+  else if (pct >= 75) { emoji='🎉'; title='Great Job!';      sub='Really impressive performance!';         color='#6366f1'; }
+  else if (pct >= 60) { emoji='👍'; title='Good Effort!';    sub="Keep studying, you're almost there!";    color='#f59e0b'; }
+  else if (pct >= 40) { emoji='📚'; title='Keep Going!';     sub='Review your lecture notes and retry.';   color='#f97316'; }
+  else                { emoji='💪'; title="Don't Give Up!";  sub:'Practice makes perfect!';                color='#ef4444'; }
+
+  document.getElementById('resEmoji').textContent = emoji;
+  document.getElementById('resTitle').textContent = title;
+  document.getElementById('resSub').textContent   = sub;
+  document.getElementById('resPct').textContent   = pct + '%';
+  document.getElementById('rC').textContent       = score;
+  document.getElementById('rW').textContent       = wrongCount;
+  document.getElementById('rS').textContent       = skipped;
+
+  const ring = document.getElementById('scoreRing');
+  ring.style.borderColor = color;
+  ring.style.color       = color;
+
+  // Show/Hide Retry Wrong button on Results Screen
+  const btnWrong = document.getElementById('btnRetryWrong');
+  if (btnWrong) {
+    if (wrongCount > 0) {
+      btnWrong.style.display = 'block';
+    } else {
+      btnWrong.style.display = 'none';
+    }
+  }
+
+  showScreen('resultScreen');
+}
+
+// ══════════════════════════════════════════════════════
+//  RETRY ONLY WRONG QUESTIONS OF THE RUN
+// ══════════════════════════════════════════════════════
+function retryWrongOnly() {
+  const wrongQuestionsInRun = quizQuestions.filter((q, idx) => {
+    const ua = userAnswers[idx];
+    return ua !== null && ua !== q.ans;
+  });
+
+  if (wrongQuestionsInRun.length === 0) return;
+
+  quizQuestions = wrongQuestionsInRun.map(q => ({
+    originalIdx: q.originalIdx,
+    lec: q.lec,
+    q: q.q,
+    opts: [...q.opts],
+    ans: q.ans,
+    note: q.note,
+    ai: q.ai || false,
+    n: q.n
+  }));
+
+  currentIdx = 0; score = 0; wrongCount = 0; skipped = 0;
+  userAnswers = new Array(quizQuestions.length).fill(null);
+
+  setHeaderQuiz(quizQuestions.length);
+  const bn = document.getElementById('quizBanner');
+  if (bn) {
+    const aiOnly = currentSet === 'ai' || (quizQuestions.length > 0 && quizQuestions.every(q => q.ai));
+    bn.innerHTML = aiOnly
+      ? `🤖 امتحان أسئلة الـ AI — ${quizQuestions.length} سؤال مُولّد بالـ AI`
+      : `📘 كويز الملف الأصلي — ${quizQuestions.length} سؤال`;
+    bn.style.background = aiOnly
+      ? 'linear-gradient(135deg,#7c3aed,#a855f7)'
+      : 'linear-gradient(135deg,#4338ca,#818cf8)';
+  }
+  showScreen('quizScreen');
+  renderQuizSheet();
+}
+
+// ══════════════════════════════════════════════════════
+//  REVIEW
+// ══════════════════════════════════════════════════════
+function goReview() {
+  const list = document.getElementById('revList');
+  list.innerHTML = '';
+  const LABELS = ['A','B','C','D','E'];
+
+  quizQuestions.forEach((q, qi) => {
+    const ua  = userAnswers[qi];
+    const ok  = ua === q.ans;
+    const cls = ua === null ? 'skipped' : ok ? 'correct' : 'wrong';
+
+    let optsHtml = '';
+    q.opts.forEach((opt, oi) => {
+      let c = 'no', icon = LABELS[oi] + '. ';
+      if (oi === q.ans)     { c = 'co'; icon = '✅ '; }
+      if (oi === ua && !ok) { c = 'wo'; icon = '❌ '; }
+      optsHtml += `<div class="rev-opt ${c}">${icon}${opt}</div>`;
+    });
+
+    const sk = ua === null ? ' <em style="color:#f59e0b">(Skipped)</em>' : '';
+    const item = document.createElement('div');
+    item.className = `rev-item ${cls}`;
+    item.innerHTML = `
+      ${q.note ? `<div class="q-note" style="margin-bottom:8px">${q.note}</div>` : ''}
+      <div class="rev-q">Q${qi+1}. ${q.q}${sk}</div>
+      <span class="rev-lec">${q.lec}</span>
+      <div class="rev-opts">${optsHtml}</div>
+    `;
+    list.appendChild(item);
+  });
+
+  showScreen('reviewScreen');
+}
+
+function goResult() { showScreen('resultScreen'); }
+function retryQuiz() { startQuiz(lastSet); }
+function goHome()  { setHeaderDefault(); checkQuizProgress(); showScreen('homeScreen'); }
+//  QUESTION BANK SCREEN LOGIC
+// ══════════════════════════════════════════════════════
+let activeQBankFilter = 'all';
+
+function goToProblem() {
+  setHeaderDefault();
+  showScreen('problemScreen');
+}
+
+function goToQBank() {
+  setHeaderDefault();
+  showScreen('qbankScreen');
+  setQBankFilter('all');
+}
+
+function setQBankFilter(filter) {
+  activeQBankFilter = filter;
+
+  // Highlight active button
+  document.querySelectorAll('#qbankFilters button, [id^="qbf_L"]').forEach(btn => {
+    btn.style.borderColor = 'var(--border)';
+    btn.style.background = 'var(--card)';
+    btn.style.color = 'var(--muted)';
+  });
+
+  const activeBtn = document.getElementById('qbf_' + filter);
+  if (activeBtn) {
+    if (filter === 'all') {
+      activeBtn.style.borderColor = '#10b981';
+      activeBtn.style.background = 'rgba(16, 185, 129, 0.1)';
+      activeBtn.style.color = '#10b981';
+    } else if (filter === 'not_longest') {
+      activeBtn.style.borderColor = '#6366f1';
+      activeBtn.style.background = 'rgba(99, 102, 241, 0.1)';
+      activeBtn.style.color = '#6366f1';
+    } else if (filter === 'flagged') {
+      activeBtn.style.borderColor = '#f59e0b';
+      activeBtn.style.background = 'rgba(245, 158, 11, 0.1)';
+      activeBtn.style.color = '#f59e0b';
+    } else if (filter === 'wrong') {
+      activeBtn.style.borderColor = '#ef4444';
+      activeBtn.style.background = 'rgba(239, 68, 68, 0.1)';
+      activeBtn.style.color = '#ef4444';
+    } else {
+      activeBtn.style.borderColor = 'var(--primary)';
+      activeBtn.style.background = 'var(--primary-light)';
+      activeBtn.style.color = 'var(--primary-dark)';
+    }
+  }
+
+  updateQBankFilterCounts();
+  renderQBank();
+}
+
+function updateQBankFilterCounts() {
+  const allBtn = document.getElementById('qbf_all');
+  const flaggedBtn = document.getElementById('qbf_flagged');
+  const wrongBtn = document.getElementById('qbf_wrong');
+
+  if (allBtn) allBtn.textContent = `الكل (${QUESTIONS.length})`;
+  if (flaggedBtn) flaggedBtn.textContent = `المميزة (${flaggedQuestions.length})`;
+  if (wrongBtn) wrongBtn.textContent = `الأخطاء (${allTimeWrong.size})`;
+}
+
+function renderQBank() {
+  const list = document.getElementById('qbankList');
+  list.innerHTML = '';
+  const LABELS = ['A','B','C','D','E'];
+  const searchQuery = document.getElementById('qbankSearchInput') ? document.getElementById('qbankSearchInput').value.toLowerCase().trim() : '';
+
+  // Filter logic
+  let filtered = [];
+  QUESTIONS.forEach((q, idx) => {
+    const isFlagged = flaggedQuestions.includes(idx);
+    const isWrong = allTimeWrong.has(idx);
+    
+    let match = false;
+    if (activeQBankFilter === 'all') {
+      match = true;
+    } else if (activeQBankFilter === 'flagged') {
+      match = isFlagged;
+    } else if (activeQBankFilter === 'wrong') {
+      match = isWrong;
+    } else if (activeQBankFilter === 'not_longest') {
+      const lengths = q.opts.map(o => o.length);
+      const maxLen = Math.max(...lengths);
+      const correctLen = q.opts[q.ans].length;
+      match = correctLen < maxLen;
+    } else {
+      const lecMap = {
+        'L1': 'Preprocessing',
+        'L2': 'Clustering',
+        'L3': 'PCA/KNN/Models',
+        'L4': 'أسئلة AI'
+      };
+      match = q.lec === lecMap[activeQBankFilter];
+    }
+
+    // Apply Search Filter
+    if (match && searchQuery !== '') {
+      const textMatch = q.q.toLowerCase().includes(searchQuery) || q.opts.some(o => o.toLowerCase().includes(searchQuery));
+      match = textMatch;
+    }
+
+    if (match) {
+      filtered.push({
+        originalIdx: idx,
+        lec: q.lec,
+        q: q.q,
+        opts: q.opts,
+        ans: q.ans,
+        note: q.note,
+        ai: q.ai || false,
+        n: q.n
+      });
+    }
+  });
+
+  if (filtered.length === 0) {
+    list.innerHTML = `
+      <div class="q-card" style="text-align: center; padding: 30px 20px;">
+        <div style="font-size: 2.5rem; margin-bottom: 10px;">🔍</div>
+        <div style="font-size: 1rem; font-weight: bold; color: var(--text);">لا توجد نتائج تطابق البحث أو الفلتر!</div>
+        <p style="font-size: 0.8rem; color: var(--muted); margin-top: 4px;">حاول كتابة كلمة بحث أخرى أو تغيير الفلتر.</p>
+      </div>
+    `;
+    return;
+  }
+
+  filtered.forEach((q, fi) => {
+    const isFlagged = flaggedQuestions.includes(q.originalIdx);
+    
+    const lecColors = {
+      'Preprocessing': '#818cf8',
+      'Clustering': '#60a5fa',
+      'PCA/KNN/Models': '#2dd4bf',
+      'أسئلة AI': '#a855f7'
+    };
+    const accentColor = lecColors[q.lec] || 'var(--primary)';
+    
+    let optsHtml = '';
+    q.opts.forEach((opt, oi) => {
+      const isCorrect = oi === q.ans;
+      if (isCorrect) {
+        optsHtml += `
+          <div class="qbank-opt correct">
+            <span style="text-align: left; padding-right: 10px;"><strong>${LABELS[oi]}. ${highlightSearchTerms(opt, searchQuery)}</strong></span>
+            <span style="font-size: 1.15rem; flex-shrink: 0; line-height: 1;">✅</span>
+          </div>
+        `;
+      } else {
+        optsHtml += `
+          <div class="qbank-opt">
+            <span style="text-align: left; padding-right: 10px;">${LABELS[oi]}. ${highlightSearchTerms(opt, searchQuery)}</span>
+            <span style="font-size: 1.15rem; flex-shrink: 0; line-height: 1; opacity: 0; user-select: none;">✅</span>
+          </div>
+        `;
+      }
+    });
+
+    const item = document.createElement('div');
+    item.className = 'qbank-card';
+    item.style.borderLeft = `6px solid ${accentColor}`;
+    item.id = `qbc_${q.originalIdx}`;
+
+    item.innerHTML = `
+      <div class="qbank-meta-row">
+        <div style="display: flex; gap: 6px; align-items: center;">
+          <span class="qbank-num-badge" style="background: rgba(99,102,241,0.06); color: ${accentColor}; border-color: rgba(99,102,241,0.05);">${q.ai ? '🤖 AI · سؤال ' + q.n : 'سؤال ' + q.n}</span>
+          <span class="qbank-lec-badge">${q.lec}</span>
+        </div>
+        <button class="qbank-star-btn" onclick="toggleFlagQBank(${q.originalIdx}, this)" style="color: ${isFlagged ? '#f59e0b' : 'var(--muted)'};" title="تحديد السؤال">
+          ${isFlagged ? '★' : '☆'}
+        </button>
+      </div>
+      ${q.note ? `<div class="q-note">${q.note}</div>` : ''}
+      <div class="qbank-question-text">
+        ${highlightSearchTerms(q.q, searchQuery)}
+      </div>
+      
+      <!-- Choices container -->
+      <div id="qbc_choices_${q.originalIdx}" style="display: flex; flex-direction: column; gap: 4px;">
+        ${optsHtml}
+      </div>
+    `;
+    list.appendChild(item);
+  });
+}
+
+function toggleFlagQBank(origIdx, btn) {
+  const idxInFlags = flaggedQuestions.indexOf(origIdx);
+  if (idxInFlags > -1) {
+    flaggedQuestions.splice(idxInFlags, 1);
+    btn.textContent = '☆';
+    btn.style.color = 'var(--muted)';
+  } else {
+    flaggedQuestions.push(origIdx);
+    btn.textContent = '★';
+    btn.style.color = '#f59e0b';
+  }
+  saveFlaggedToLocalStorage();
+  updateQBankFilterCounts();
+}
+
+// 🔎 SEARCH & BLIND RECALL HELPER FUNCTIONS
+let blindRecallActive = false;
+
+function searchQBank() {
+  renderQBank();
+}
+
+function toggleBlindRecall() {
+  const toggle = document.getElementById('blindRecallToggle');
+  blindRecallActive = toggle.checked;
+  renderQBank();
+}
+
+function revealSingleQBankAnswer(origIdx) {
+  const choices = document.getElementById(`qbc_choices_${origIdx}`);
+  const btn = document.getElementById(`qbc_reveal_btn_${origIdx}`);
+  if (choices && btn) {
+    choices.style.display = 'flex';
+    btn.style.display = 'none';
+  }
+}
+
+function highlightSearchTerms(text, query) {
+  if (!query) return text;
+  const regex = new RegExp(`(${query.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')})`, 'gi');
+  return text.replace(regex, '<mark style="background: #fde047; color: #1e1b4b; padding: 1px 4px; border-radius: 4px; font-weight: 800;">$1</mark>');
+}
+
+// عدد أسئلة "إجابة ليست الأطول" — يتحسب من البنك نفسه
+function updateNotLongestCount() {
+  ['quiz', 'ai'].forEach(function (set) {
+    const el = document.getElementById('notLongestCount_' + set);
+    if (!el) return;
+    const isAI = set === 'ai';
+    const n = QUESTIONS.filter(q => !!q.ai === isAI && q.opts[q.ans].length < Math.max(...q.opts.map(o => o.length))).length;
+    el.textContent = n;
+  });
+}
+
+function updateHomeExtras() {
+  const qbfAll = document.getElementById('qbf_all');
+  if (qbfAll) qbfAll.textContent = `الكل (${QUESTIONS.length})`;
+  const qsBtn = document.getElementById('qbankStartCount');
+  if (qsBtn) qsBtn.textContent = QUESTIONS.length;
+  const revAll = document.getElementById('revAllCount');
+  if (revAll) revAll.textContent = QUESTIONS.length;
+  const nQuiz = QUESTIONS.filter(q => !q.ai).length;
+  const nAI   = QUESTIONS.filter(q => q.ai).length;
+  document.querySelectorAll('.hdr-sub').forEach(el => {
+    el.innerHTML = `Machine Learning &amp; Data Preprocessing &bull; <bdi>${nQuiz}</bdi> MCQ + <bdi>${nAI}</bdi> سؤال AI`;
+  });
+  const stQ = document.getElementById('statQ');   if (stQ) stQ.textContent = nQuiz;
+  const stAI = document.getElementById('statAI'); if (stAI) stAI.textContent = nAI;
+  const stT = document.getElementById('statTopics'); if (stT) stT.textContent = LEC_LABEL_KEYS.length;
+  const scq = document.getElementById('setCount_quiz'); if (scq) scq.textContent = `${nQuiz} سؤال`;
+  const sca = document.getElementById('setCount_ai');   if (sca) sca.textContent = `${nAI} سؤال`;
+  const qbfL4 = document.getElementById('qbf_L4');
+  if (qbfL4) qbfL4.textContent = `🤖 أسئلة الـ AI (${nAI})`;
+  const hb = document.getElementById('heroBadges');
+  if (hb) {
+    hb.innerHTML = LEC_LABEL_KEYS.map(k =>
+      `<span class="lec-badge">${LEC_LABELS[k]} (${QUESTIONS.filter(q => q.lec === LEC_CODES[k]).length} Qs)</span>`
+    ).join('') + `<span class="lec-badge" style="border-color:#a855f7; color:#a855f7;">🤖 أسئلة مُولّدة بالـ AI (${nAI} Qs)</span>`
+      + `<span class="lec-badge mid-chip" role="button" tabindex="0" onclick="goToProblem()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();goToProblem();}">🧮 مسألة الميد اللي قالت عليها الدكتورة</span>`;
+  }
+  updateHomeLabels();
+  updateNotLongestCount();
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  initLocalStorage();
+  updateNotLongestCount();
+  updateHomeExtras();
+});
+</script>
+<!-- ==========================================================
+     📊 عدّاد الزوّار (GoatCounter) — اختياري
+     1) اعمل حساب مجاني من https://www.goatcounter.com
+     2) بدّل YOURCODE بكود حسابك
+     3) امسح السطر الأول (فتح التعليق) والسطر الأخير (قفل التعليق) لتفعيله
+     ملاحظة: وهو معلّق كده مش بيأثر على شكل أو سرعة الصفحة.
+<script data-goatcounter="https://YOURCODE.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+-->
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   🅰️ BIDI FIX — يخلي الكلام الإنجليزي/الأرقام اللي جوه جملة عربية
+   يظهر بترتيبه الصح (مش بيتقلب) عن طريق تغليفه في <bdi dir="ltr">
+═══════════════════════════════════════════════════════════ */
+(function () {
+  if (window.__bidiFixOn) { return; }
+  window.__bidiFixOn = true;
+
+  var AR = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
+  var MATH = /[\u00B0\u00B1\u00B2\u00B3\u00B9\u00D7\u00F7\u2081-\u2089\u2190-\u2193\u2211\u2212\u221A\u221E\u2208\u222B\u2248\u2260\u2264\u2265\u2261\u03A3\u03C0\u03C1\u03BC\u03B8\u2032\u2033\u00BD\u00BC\u00BE]/;
+  var JOINER = /[\uFE0F\uFE0E\u200D\u20E3]/;        /* emoji keycap / ZWJ parts */
+  var SKIP = { SCRIPT: 1, STYLE: 1, TEXTAREA: 1, OPTION: 1, NOSCRIPT: 1, BDI: 1, TITLE: 1 };
+
+  function isAr(c)   { return AR.test(c); }
+  function isAln(c)  { return (c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'); }
+  function isMath(c) { return MATH.test(c); }
+  function isJoi(c)  { return JOINER.test(c); }
+  function isAscii(c) {
+    var o = c.charCodeAt(0);
+    return (o >= 33 && o <= 47) || (o >= 58 && o <= 64) || (o >= 91 && o <= 96) || (o >= 123 && o <= 126);
+  }
+  function canStart(c)  { return isAln(c) || isMath(c); }
+  function canMid(c)    { return isAln(c) || isMath(c) || isJoi(c) || c === ' ' || isAscii(c); }
+
+  var CLOSERS = ')]}';
+  var NONCLOSE = ',;:!?.\'"*/\\-+=<>&|#@$%~^_`';
+
+  function balanced(s) {
+    var o = 0;
+    for (var i = 0; i < s.length; i++) {
+      var c = s.charAt(i);
+      if (c === '(' || c === '[' || c === '{') { o++; }
+      else if (c === ')' || c === ']' || c === '}') { o--; if (o < 0) { return false; } }
+    }
+    return o === 0;
+  }
+
+  function trimEnd(t, s, e) {
+    while (e > s) {
+      var c = t.charAt(e - 1);
+      if (c === ' ') { e--; continue; }
+      if (isJoi(c)) { break; }                       /* keep emoji keycap parts */
+      if ('([{'.indexOf(c) >= 0) { e--; continue; }  /* never end on an open bracket */
+      if (CLOSERS.indexOf(c) >= 0 && !balanced(t.slice(s, e))) { e--; continue; }
+      if (NONCLOSE.indexOf(c) >= 0) { e--; continue; }
+      break;
+    }
+    return e;
+  }
+
+  function wrapText(t) {
+    var out = '', i = 0, n = t.length;
+    while (i < n) {
+      var c = t.charAt(i), startOk = canStart(c);
+      /* an opening bracket directly followed by a latin run belongs to the island */
+      if (!startOk && (c === '(' || c === '[') && i + 1 < n && canStart(t.charAt(i + 1))) { startOk = true; }
+      if (!startOk) { out += c; i++; continue; }
+
+      var j = i + 1, last = i + 1;
+      while (j < n && canMid(t.charAt(j))) { if (t.charAt(j) !== ' ') { last = j + 1; } j++; }
+      var end = trimEnd(t, i, last);
+      if (end <= i) { out += c; i++; continue; }
+      out += '<bdi dir="ltr">' + t.slice(i, end) + '</bdi>';
+      i = end;
+    }
+    return out;
+  }
+
+  function fixTextNode(node) {
+    if (!node || node.nodeType !== 3) { return; }
+    var t = node.nodeValue;
+    if (!t || !/[A-Za-z0-9]/.test(t)) { return; }
+    var p = node.parentNode;
+    if (!p || p.nodeType !== 1 || SKIP[(p.nodeName || '').toUpperCase()]) { return; }
+    var w = wrapText(t);
+    if (w === t) { return; }
+    var holder = document.createElement('span');
+    holder.className = 'bd';
+    holder.innerHTML = w;
+    /* ONE span, never several nodes: a flex/grid parent would otherwise turn every
+       <bdi> into its own item and explode the line (see the step headers) */
+    p.insertBefore(holder, node);
+    p.removeChild(node);
+  }
+
+  function walk(el) {
+    if (!el) { return; }
+    if (el.nodeType === 3) { fixTextNode(el); return; }
+    if (el.nodeType !== 1) { return; }
+    if (SKIP[(el.nodeName || '').toUpperCase()]) { return; }
+    var kids = [], i;
+    for (i = 0; i < el.childNodes.length; i++) { kids.push(el.childNodes[i]); }
+    for (i = 0; i < kids.length; i++) {
+      var k = kids[i];
+      if (k.nodeType === 3) { fixTextNode(k); } else if (k.nodeType === 1) { walk(k); }
+    }
+  }
+
+  /* blocks that are Arabic-first get dir="auto" so the whole sentence reads RTL
+     (an English paragraph keeps its own LTR flow) */
+  function decided(el) {
+    var n = el;
+    while (n && n !== document.body) {
+      if (n.nodeType === 1 && n.hasAttribute && n.hasAttribute('dir')) { return true; }
+      n = n.parentNode;
+    }
+    return false;
+  }
+
+  function autoDir(root) {
+    var els;
+    try { els = root.querySelectorAll('*'); } catch (e) { return; }
+    for (var i = 0; i < els.length; i++) {
+      var el = els[i];
+      if (el.hasAttribute('dir') || decided(el)) { continue; }
+      var kids = el.childNodes;
+      for (var j = 0; j < kids.length; j++) {
+        var c = kids[j];
+        if (c.nodeType === 3 && AR.test(c.nodeValue)) { el.setAttribute('dir', 'auto'); break; }
+      }
+    }
+  }
+
+  function runAll() { try { autoDir(document.body); walk(document.body); } catch (e) {} }
+
+  function boot() {
+    runAll();
+    var mo = new MutationObserver(function (muts) {
+      for (var i = 0; i < muts.length; i++) {
+        var m = muts[i];
+        if (m.type === 'characterData') { fixTextNode(m.target); continue; }
+        for (var j = 0; j < m.addedNodes.length; j++) {
+          var nd = m.addedNodes[j];
+          if (nd.nodeType === 3) { fixTextNode(nd); }
+          else if (nd.nodeType === 1) { autoDir(nd); walk(nd); }
+        }
+      }
+    });
+    mo.observe(document.body, { childList: true, subtree: true, characterData: true });
+    /* safety nets: screens are built by innerHTML right after clicks */
+    [0, 60, 200, 600].forEach(function (ms) { setTimeout(runAll, ms); });
+    window.fixBidiNow = runAll;
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else { boot(); }
+})();
+</script>
+
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a5a93588fb86defa',t:'MTc5NDY5Mjc4OA=='};var l=window.parent.location,o;try{o=new URL(l.origin).origin}catch(e){try{o=new URL(new URL(l.href).origin).origin}catch(e){o=''}}var u='/cdn-cgi/challenge-platform/scripts/jsd/main.js?ray=a5a93588fb86defa',a=document.createElement('script');a.src=o?new URL(u,o).href:u;document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
